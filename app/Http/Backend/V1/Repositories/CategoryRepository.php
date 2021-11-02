@@ -3,6 +3,7 @@
 namespace App\Http\Backend\V1\Repositories;
 
 use App\Models\Category;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Log;
 
 class CategoryRepository
@@ -58,10 +59,14 @@ class CategoryRepository
 				break;
 		}
 
+		if($data['col']) {
+			$query = $query->orderBy(str_replace(' ', '_', $data['col']), $data['order']);
+		}
+
 		if ($data['row']) {
 			$query = $query->paginate($data['row']);
 		}
 
-		return $query;
+		return $query->onEachSide(1);
 	}
 }
