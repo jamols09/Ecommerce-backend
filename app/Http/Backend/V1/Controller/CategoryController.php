@@ -7,6 +7,7 @@ use App\Http\Backend\V1\Services\CategoryService;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -47,7 +48,20 @@ class CategoryController extends Controller
     {
         try {
             $result['body'] = $this->categoryService->getAll($request);
-            // $result['body'] = $this->categoryService->create($request->validated());
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result,500);
+        }
+        return response()->json($result, 200);
+    }
+
+    public function delete(Request $request)
+    {
+        Log::debug($request);
+        try {
+            $result['body'] = $this->categoryService->delete($request->only(['id']));
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),

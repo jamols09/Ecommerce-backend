@@ -4,7 +4,7 @@ namespace App\Http\Backend\V1\Services;
 
 use App\Http\Backend\V1\Repositories\CategoryRepository;
 
-class CategoryService
+class CategoryService 
 {
 	protected $categoryRepository;
 
@@ -26,5 +26,10 @@ class CategoryService
 	public function getAll($data)
 	{
 		return $this->categoryRepository->getAll($data);
+	}
+
+	public function delete($data)
+	{
+		return $this->categoryRepository->delete($data);
 	}
 }
