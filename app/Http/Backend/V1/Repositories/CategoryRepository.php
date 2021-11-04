@@ -48,11 +48,11 @@ class CategoryRepository
 
         $query = $this->category::query()->with('parent:id,name');
 
-        switch ($data['type']) {
-            case 'Created At':
+        switch (strtolower($data['type'])) {
+            case 'created at':
                 $query = $query->where('created_at', 'LIKE', '%' . $data['q'] . '%');
                 break;
-            case 'Name':
+            case 'name':
                 $query = $query->where('name', 'LIKE', '%' . $data['q'] . '%');
                 break;
             default:
@@ -61,7 +61,7 @@ class CategoryRepository
         }
 
         if ($data['col']) {
-            $query = $query->orderBy(str_replace(' ', '_', $data['col']), $data['order']);
+            $query = $query->orderBy(str_replace(' ', '_', $data['col'] ?? 'name'), $data['order'] ?? 'asc');
         }
 
         if ($data['row']) {

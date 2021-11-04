@@ -34,4 +34,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('account_type', '=', 'ADMIN');
+    }
+
+    public function scopeClient($query)
+    {
+        return $query->where('account_type', '=', 'CLIENT');
+    }
 }
