@@ -57,4 +57,19 @@ class UserController extends Controller
         }
         return response()->json($result, 200);
     }
+
+    public function deactivate(Request $request)
+    {
+        try {
+            $result['body'] = $this->userService->deactivate($request);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+                'status' => 500,
+            ];
+            Log::debug($e);
+            return response()->json($result);
+        }
+        return response()->json($result, 200);
+    }
 }

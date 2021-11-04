@@ -15,6 +15,7 @@ use App\Http\Backend\V1\Controller\UserController;
 // Route::middleware('auth:sanctum')->group( function () {
   Route::post('/users', [UserController::class, 'create']);
   Route::get('/users', [UserController::class, 'table']);
+  Route::post('/users/deactivate', [UserController::class, 'deactivate']);
 // });
 
 //Auth

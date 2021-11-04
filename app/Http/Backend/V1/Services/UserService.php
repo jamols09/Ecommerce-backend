@@ -64,4 +64,18 @@ class UserService
 
         return $query;
     }
+
+     /**
+     * Delete all selected id
+     * @param array $data
+     * @return App\Models\Category
+     */
+    public function deactivate($data)
+    {
+        foreach ($data['id'] as $value) {
+            $query = User::find($value)->update(['is_active' => 0]);
+        }
+
+        return $query;
+    }
 }
