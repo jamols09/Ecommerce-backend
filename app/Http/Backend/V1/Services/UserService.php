@@ -73,6 +73,21 @@ class UserService
      * @param array $data
      * @return App\Models\Category
      */
+    public function delete($data)
+    {
+
+        foreach ($data['id'] as $value) {
+            $query = User::find($value)->delete();
+        }
+
+        return $query;
+    }
+
+    /**
+     * Delete all selected id
+     * @param array $data
+     * @return App\Models\Category
+     */
     public function status($data)
     {
         

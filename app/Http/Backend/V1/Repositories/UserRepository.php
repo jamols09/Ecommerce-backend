@@ -34,7 +34,7 @@ class UserRepository
             'is_active' => $data['is_active'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'account_type' => "ADMIN"
+            'account_type' => $data['account_type']
         ]);
     }
 
