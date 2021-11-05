@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Route;
 | route name
 */
 
-Route::middleware('auth:sanctum')->group( function () {
+// Route::middleware('auth:sanctum')->group( function () {
   Route::post('/branch', [BranchController::class, 'create']);
   Route::get('/branch/dropdown', [BranchController::class, 'getDropdown']);
-});
+  
+// });
 

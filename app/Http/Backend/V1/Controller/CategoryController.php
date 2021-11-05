@@ -44,10 +44,10 @@ class CategoryController extends Controller
         return response()->json($result, 200);
     }
     
-    public function getAll(Request $request)
+    public function table(Request $request)
     {
         try {
-            $result['body'] = $this->categoryService->getAll($request);
+            $result['body'] = $this->categoryService->table($request);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
