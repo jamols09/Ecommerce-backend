@@ -31,6 +31,7 @@ class BranchCreateRequest extends FormRequest
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
+            'barangay' => 'required',
             'address_line_1' => 'required',
             'address_line_2' => 'nullable',
             'postal' => 'nullable',
