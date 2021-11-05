@@ -43,7 +43,7 @@ class CategoryRepository
      * @param array $data
      * @return App\Models\Category
      */
-    public function getAll($data)
+    public function table($data)
     {
 
         $query = $this->category::query()->with('parent:id,name');

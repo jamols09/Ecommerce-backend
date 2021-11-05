@@ -23,9 +23,9 @@ class CategoryService
     return $this->categoryRepository->getDropdown();
   }
 
-	public function getAll($data)
+	public function table($data)
 	{
-		return $this->categoryRepository->getAll($data);
+		return $this->categoryRepository->table($data);
 	}
 
 	public function delete($data)

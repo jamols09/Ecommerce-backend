@@ -29,6 +29,7 @@ class UserController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
+            
             return response()->json($result);
         }
         return response()->json($result, 200);
@@ -51,11 +52,27 @@ class UserController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
+
             return response()->json($result);
         }
         return response()->json($result, 200);
     }
 
+    public function delete(Request $request)
+    {
+      
+        try {
+            $result['body'] = $this->userService->delete($request);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+                'status' => 500,
+            ];
+          
+            return response()->json($result);
+        }
+        return response()->json($result, 200);
+    }
 
     public function status(Request $request)
     {
@@ -72,4 +89,5 @@ class UserController extends Controller
         }
         return response()->json($result, 200);
     }
+    
 }

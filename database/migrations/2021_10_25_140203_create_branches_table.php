@@ -22,8 +22,9 @@ class CreateBranchesTable extends Migration
             $table->string('state');
             $table->string('city');
             $table->string('address_line_1');
+            $table->string('barangay')->nullable();
             $table->string('address_line_2')->nullable();
-            $table->string('postal')->nullable();
+            $table->string('postal');
             $table->double('longitude')->nullable();
             $table->double('latitude')->nullable();
             $table->string('telephone')->nullable();
