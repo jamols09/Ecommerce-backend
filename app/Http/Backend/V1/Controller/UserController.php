@@ -29,7 +29,6 @@ class UserController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
-            Log::debug($e);
             return response()->json($result);
         }
         return response()->json($result, 200);
@@ -41,5 +40,36 @@ class UserController extends Controller
             return response()->json(Auth::user(), 200);
         }
         return response()->json(['error' => 'Invalid Credentials'], 401);
+    }
+
+    public function table(Request $request)
+    {
+        try {
+            $result['body'] = $this->userService->table($request);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+                'status' => 500,
+            ];
+            return response()->json($result);
+        }
+        return response()->json($result, 200);
+    }
+
+
+    public function status(Request $request)
+    {
+      
+        try {
+            $result['body'] = $this->userService->status($request);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+                'status' => 500,
+            ];
+          
+            return response()->json($result);
+        }
+        return response()->json($result, 200);
     }
 }
