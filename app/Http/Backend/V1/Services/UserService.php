@@ -50,14 +50,12 @@ class UserService
                 $query = $query->where('created_at', 'LIKE', '%' . $data['q'] . '%');
                 break;
             default:
-                # code...
                 break;
         }
 
         if ($data['col']) {
             //override values
             $data['col'] = $data['col'] == 'Active' ? 'is_active' : $data['col'];
-
             $query = $query->orderBy(str_replace(' ', '_', $data['col'] ?? 'id'), $data['order'] ?? 'asc');
         }
 
@@ -75,26 +73,22 @@ class UserService
      */
     public function delete($data)
     {
-
         foreach ($data['id'] as $value) {
             $query = User::find($value)->delete();
         }
-
         return $query;
     }
 
     /**
-     * Delete all selected id
+     * Set status of selected id
      * @param array $data
      * @return App\Models\Category
      */
     public function status($data)
     {
-        
         foreach ($data['id'] as $value) {
             $query = User::find($value)->update(['is_active' => $data['status'] == 'activate' ? 1 : 0]);
         }
-
         return $query;
     }
 }
