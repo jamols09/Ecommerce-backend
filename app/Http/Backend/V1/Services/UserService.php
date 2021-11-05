@@ -57,7 +57,7 @@ class UserService
         if ($data['col']) {
             //override values
             $data['col'] = $data['col'] == 'Active' ? 'is_active' : $data['col'];
-            
+
             $query = $query->orderBy(str_replace(' ', '_', $data['col'] ?? 'id'), $data['order'] ?? 'asc');
         }
 
@@ -68,15 +68,16 @@ class UserService
         return $query;
     }
 
-     /**
+    /**
      * Delete all selected id
      * @param array $data
      * @return App\Models\Category
      */
-    public function deactivate($data)
+    public function status($data)
     {
+        
         foreach ($data['id'] as $value) {
-            $query = User::find($value)->update(['is_active' => 0]);
+            $query = User::find($value)->update(['is_active' => $data['status'] == 'activate' ? 1 : 0]);
         }
 
         return $query;

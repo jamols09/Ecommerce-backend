@@ -29,7 +29,6 @@ class UserController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
-            Log::debug($e);
             return response()->json($result);
         }
         return response()->json($result, 200);
@@ -52,22 +51,23 @@ class UserController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
-            Log::debug($e);
             return response()->json($result);
         }
         return response()->json($result, 200);
     }
 
-    public function deactivate(Request $request)
+
+    public function status(Request $request)
     {
+      
         try {
-            $result['body'] = $this->userService->deactivate($request);
+            $result['body'] = $this->userService->status($request);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
-            Log::debug($e);
+          
             return response()->json($result);
         }
         return response()->json($result, 200);
