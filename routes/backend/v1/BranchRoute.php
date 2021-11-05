@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::middleware('auth:sanctum')->group( function () {
   Route::post('/branch', [BranchController::class, 'create']);
+  Route::get('/branch', [BranchController::class, 'table']);
   Route::get('/branch/dropdown', [BranchController::class, 'getDropdown']);
   
 // });
