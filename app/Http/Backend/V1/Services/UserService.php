@@ -55,6 +55,9 @@ class UserService
         }
 
         if ($data['col']) {
+            //override values
+            $data['col'] = $data['col'] == 'Active' ? 'is_active' : $data['col'];
+            
             $query = $query->orderBy(str_replace(' ', '_', $data['col'] ?? 'id'), $data['order'] ?? 'asc');
         }
 
