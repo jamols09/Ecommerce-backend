@@ -4,7 +4,7 @@ namespace App\Http\Backend\V1\Services;
 
 use App\Http\Backend\V1\Repositories\CategoryRepository;
 
-class CategoryService 
+class CategoryService
 {
 	protected $categoryRepository;
 
@@ -18,10 +18,10 @@ class CategoryService
 		return $this->categoryRepository->create($data);
 	}
 
-  public function getDropdown()
-  {
-    return $this->categoryRepository->getDropdown();
-  }
+	public function getDropdown()
+	{
+		return $this->categoryRepository->getDropdown();
+	}
 
 	public function table($data)
 	{
