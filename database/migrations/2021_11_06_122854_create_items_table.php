@@ -17,8 +17,8 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Department::class);
-            $table->foreignIdFor(Brand::class);
+            $table->foreignIdFor(Department::class)->nullable();
+            $table->foreignIdFor(Brand::class)->nullable();
             $table->boolean('is_discountable');
             $table->string('name');
             $table->string('description', 3000);
