@@ -24,7 +24,7 @@ class DepartmentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:department,name|max:50',
+            'name' => 'required|unique:departments,name|max:50',
         ];
     }
 }

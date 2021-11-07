@@ -6,8 +6,15 @@ use App\Models\Department;
 
 class DepartmentService
 {
+
+	public function getDropdown()
+	{
+		return Department::orderBy('name')->get(['id', 'name']);
+	}
+
 	public function create($data)
 	{
 		return Department::create($data);
 	}
+
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Backend\V1\Controller\BranchController;
 use App\Http\Backend\V1\Controller\CategoryController;
+use App\Http\Backend\V1\Controller\DepartmentController;
 use App\Http\Backend\V1\Controller\UserController;
 use App\Http\Backend\V1\Controller\ItemController;
 
@@ -35,6 +36,9 @@ Route::post('/users/delete', [UserController::class, 'delete']);
 Route::post('/users/status', [UserController::class, 'status']);
 
 Route::post('/item', [ItemController::class, 'create']);
+
+Route::get('/department/dropdown', [DepartmentController::class, 'getDropdown']);
+Route::post('/department', [DepartmentController::class, 'create']);
 // });
 
 //Auth
