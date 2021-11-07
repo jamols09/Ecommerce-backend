@@ -25,6 +25,7 @@ class ItemCreateRequest extends FormRequest
     {
 
         return  [
+            'branches' => 'required',
 			'department_id' => 'nullable|numeric',
 			'brand_id' => 'nullable|numeric',
             'is_discountable' => 'required|boolean',
@@ -38,9 +39,9 @@ class ItemCreateRequest extends FormRequest
 			'color' => 'nullable|alpha',
 			'size' => 'nullable|alpha_num',
 			'material' => 'nullable',
-			'weight_unit' => 'nullable|in:Gram,Kilogram',
+			'weight_unit' => 'nullable|in:GRAM,KILOGRAM',
 			'weight_amount' => 'nullable|numeric',
-			'dimension_unit' => 'nullable|in:Inch,Centimeter',
+			'dimension_unit' => 'nullable|in:INCH,CENTIMETER',
 			'length' => 'nullable|numeric',
 			'width' => 'nullable|numeric',
 			'height' => 'nullable|numeric',
