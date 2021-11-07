@@ -7,7 +7,7 @@ use App\Models\Department;
 class DepartmentService
 {
 
-	public function getDropdown()
+	public function dropdown()
 	{
 		return Department::orderBy('name')->get(['id', 'name']);
 	}

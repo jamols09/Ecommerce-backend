@@ -20,9 +20,9 @@ class BranchService
 		return $this->branchRepository->create($data);
 	}
 
-	public function getDropdown()
+	public function dropdown()
 	{
-		return $this->branchRepository->getDropdown();
+		return $this->branchRepository->dropdown();
 	}
 
 	public function table($data)

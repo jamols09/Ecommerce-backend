@@ -18,9 +18,9 @@ class CategoryService
 		return $this->categoryRepository->create($data);
 	}
 
-	public function getDropdown()
+	public function dropdown()
 	{
-		return $this->categoryRepository->getDropdown();
+		return $this->categoryRepository->dropdown();
 	}
 
 	public function table($data)

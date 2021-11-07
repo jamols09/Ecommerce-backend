@@ -18,10 +18,10 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function getDropdown()
+    public function dropdown()
     {
         try {
-            $result['body'] = $this->categoryService->getDropdown();
+            $result['body'] = $this->categoryService->dropdown();
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),

@@ -32,7 +32,7 @@ class BranchRepository
      * Get all branches from dropdown
      * @return App\Models\Branch ['id','name']
      */
-    public function getDropdown()
+    public function dropdown()
     {
         return $this->branch::orderBy('name')->get(['id', 'name']);
     }

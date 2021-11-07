@@ -21,12 +21,12 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->group( function () {
 Route::post('/branch', [BranchController::class, 'create']);
 Route::get('/branch', [BranchController::class, 'table']);
-Route::get('/branch/dropdown', [BranchController::class, 'getDropdown']);
+Route::get('/branch/dropdown', [BranchController::class, 'dropdown']);
 Route::post('/branch/delete', [BranchController::class, 'delete']);
 Route::post('/branch/status', [BranchController::class, 'status']);
 
 Route::get('/category', [CategoryController::class, 'table']);
-Route::get('/category/dropdown', [CategoryController::class, 'getDropdown']);
+Route::get('/category/dropdown', [CategoryController::class, 'dropdown']);
 Route::post('/category', [CategoryController::class, 'create']);
 Route::post('/category/delete', [CategoryController::class, 'delete']);
 
@@ -37,7 +37,7 @@ Route::post('/users/status', [UserController::class, 'status']);
 
 Route::post('/item', [ItemController::class, 'create']);
 
-Route::get('/department/dropdown', [DepartmentController::class, 'getDropdown']);
+Route::get('/department/dropdown', [DepartmentController::class, 'dropdown']);
 Route::post('/department', [DepartmentController::class, 'create']);
 // });
 
