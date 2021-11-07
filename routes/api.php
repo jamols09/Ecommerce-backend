@@ -24,9 +24,10 @@ Route::middleware('auth:sanctum')->get('backend/user', function (Request $reques
 Route::group([
     'prefix' => 'backend/v1',
 ], function ($routes) {
-    require __DIR__.'/backend/v1/UsersRoute.php';
-    require __DIR__.'/backend/v1/BranchRoute.php';
-    require __DIR__.'/backend/v1/CategoryRoute.php';
+    require __DIR__.'/backend/v1/api.php';
+    // require __DIR__.'/backend/v1/UsersRoute.php';
+    // require __DIR__.'/backend/v1/BranchRoute.php';
+    // require __DIR__.'/backend/v1/CategoryRoute.php';
 });
 
 // Route::group([
