@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Backend\V1\Controller\BranchController;
+use App\Http\Backend\V1\Controller\BrandController;
 use App\Http\Backend\V1\Controller\CategoryController;
 use App\Http\Backend\V1\Controller\DepartmentController;
 use App\Http\Backend\V1\Controller\UserController;
 use App\Http\Backend\V1\Controller\ItemController;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +39,9 @@ Route::post('/item', [ItemController::class, 'create']);
 
 Route::get('/department/dropdown', [DepartmentController::class, 'dropdown']);
 Route::post('/department', [DepartmentController::class, 'create']);
+
+Route::get('/brand/dropdown',[BrandController::class, 'dropdown']);
+Route::post('/brand', [BrandController::class, 'create']);
 // });
 
 //Auth
