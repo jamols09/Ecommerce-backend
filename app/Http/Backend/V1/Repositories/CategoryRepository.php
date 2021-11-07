@@ -33,7 +33,7 @@ class CategoryRepository
      * Get all category from dropdown
      * @return App\Models\Category id,name
      */
-    public function getDropdown()
+    public function dropdown()
     {
         return $this->category::orderBy('name')->get(['id', 'name']);
     }

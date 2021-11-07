@@ -17,10 +17,10 @@ class BranchController extends Controller
         $this->branchService = $branchService;
     }
 
-    public function getDropdown()
+    public function dropdown()
     {
         try {
-            $result['body'] = $this->branchService->getDropdown();
+            $result['body'] = $this->branchService->dropdown();
         }
         catch(Exception $e) {
             $result = [

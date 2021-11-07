@@ -19,10 +19,10 @@ class DepartmentController extends Controller
 	}
 
 	
-	public function getDropdown()
+	public function dropdown()
 	{
 		try {
-			$result['body'] = $this->departmentService->getDropdown();
+			$result['body'] = $this->departmentService->dropdown();
 		} 
 		catch (Exception $e) {
             $result = [
