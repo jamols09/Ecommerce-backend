@@ -16,31 +16,40 @@ class BrandController extends Controller
 		$this->brandService = $brandService;
 	}
 
+	/**
+	 * Get brands list
+	 * 
+	 * @return Json 
+	 */
 	public function dropdown()
 	{
 		try {
 			$result['body'] = $this->brandService->dropdown();
-		} 
-		catch (Exception $e) {
-            $result = [
-                'error' => $e->getMessage(),
-            ];
-            return response()->json($result,500);
-        }
-        return response()->json($result, 200);
+		} catch (Exception $e) {
+			$result = [
+				'error' => $e->getMessage(),
+			];
+			return response()->json($result, 500);
+		}
+		return response()->json($result, 200);
 	}
 
+	/**
+	 * Generate brand
+	 * 
+	 * @param BrandCreateRequest $request
+	 * @return Json 
+	 */
 	public function create(BrandCreateRequest $request)
 	{
 		try {
-            $result['body'] = $this->brandService->create($request->validated());
-        } 
-		catch (Exception $e) {
-            $result = [
-                'error' => $e->getMessage(),
-            ];
-            return response()->json($result,500);
-        }
-        return response()->json($result, 200);
+			$result['body'] = $this->brandService->create($request->validated());
+		} catch (Exception $e) {
+			$result = [
+				'error' => $e->getMessage(),
+			];
+			return response()->json($result, 500);
+		}
+		return response()->json($result, 200);
 	}
 }

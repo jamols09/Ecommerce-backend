@@ -17,7 +17,7 @@ class BrandCreateRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Create brand name that is unique.
      *
      * @return array
      */
