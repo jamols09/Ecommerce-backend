@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Category extends Model
 {
@@ -28,7 +29,7 @@ class Category extends Model
         'updated_at',
     ];
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo('App\Models\Category', 'parent_id');
     }
