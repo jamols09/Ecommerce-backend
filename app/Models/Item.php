@@ -30,6 +30,6 @@ class Item extends Model
 
     public function branches(): BelongsToMany
     {
-        return $this->belongsToMany(Branch::class)->withPivot('is_active', 'is_display_qty', 'quantity', 'quantity_warn');
+        return $this->belongsToMany(Branch::class)->withPivot('is_active', 'is_display_qty', 'quantity', 'quantity_warn')->withTimestamps();
     }
 }
