@@ -31,7 +31,7 @@ class ItemCreateRequest extends FormRequest
             'is_discountable' => 'required|boolean',
             'name' => 'required|unique:items,name|max:100',
             'description' => 'nullable',
-            'sku' => 'nullable|alpha_num',
+            'sku' => 'nullable|unique:items,sku|alpha_num',
             'is_active' => 'required|boolean',
             'is_display_qty' => 'required|boolean',
             'quantity' => 'required|numeric',

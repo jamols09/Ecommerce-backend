@@ -10,22 +10,7 @@ class ItemService
 	public function create($data)
 	{
 
-		$item = Item::create([
-			'department_id' => $data['department_id'],
-			'brand_id' => $data['brand_id'],
-			'is_discountable' => $data['is_discountable'],
-			'sku' => $data['sku'],
-			'name' => $data['name'],
-			'description' => $data['description'],
-			'color' => $data['color'],
-			'size' => $data['size'],
-			'material' => $data['material'],
-			'weight_unit' => $data['weight_unit'],
-			'weight_amount' => $data['weight_amount'],
-			'length' => $data['length'],
-			'width' => $data['width'],
-			'height' => $data['height'],
-		]);
+		$item = Item::create($data);
 
 		foreach ($data['branches'] as $branch) {
 			$item->branches()->attach($branch, [
@@ -35,5 +20,7 @@ class ItemService
 				'quantity_warn' => $data['quantity_warn']
 			]);
 		}
+
+		return $item->name;;
 	}
 }
