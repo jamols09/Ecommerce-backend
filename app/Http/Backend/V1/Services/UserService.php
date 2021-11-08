@@ -27,6 +27,10 @@ class UserService
         return $data;
     }
 
+    /**
+     * @param array $data
+     * @return paginated user
+     */
     public function table($data)
     {
         $query = $data['u'] == 'a' ? User::query()->admin() : User::query()->client();
@@ -54,11 +58,10 @@ class UserService
         }
 
         if ($data['col']) {
-            //override values
             $data['col'] = $data['col'] == 'Active' ? 'is_active' : $data['col'];
             $query = $query->orderBy(str_replace(' ', '_', $data['col'] ?? 'id'), $data['order'] ?? 'asc');
         }
-
+        
         if ($data['row']) {
             $query = $query->paginate($data['row'] ?? 1)->onEachSide(1);
         }
@@ -68,8 +71,9 @@ class UserService
 
     /**
      * Delete all selected id
+     * 
      * @param array $data
-     * @return App\Models\Category
+     * @return User
      */
     public function delete($data)
     {
@@ -81,6 +85,7 @@ class UserService
 
     /**
      * Set status of selected id
+     * 
      * @param array $data
      * @return App\Models\Category
      */
