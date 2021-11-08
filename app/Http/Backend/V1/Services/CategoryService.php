@@ -3,6 +3,7 @@
 namespace App\Http\Backend\V1\Services;
 
 use App\Http\Backend\V1\Repositories\CategoryRepository;
+use App\Models\Category;
 
 class CategoryService
 {
@@ -15,7 +16,7 @@ class CategoryService
 
 	public function create($data)
 	{
-		return $this->categoryRepository->create($data);
+		return Category::create($data)->name;
 	}
 
 	public function dropdown()
