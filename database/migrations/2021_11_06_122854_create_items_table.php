@@ -17,20 +17,21 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Department::class)->nullable();
-            $table->foreignIdFor(Brand::class)->nullable();
+            $table->foreignIdFor(Department::class);
+            $table->foreignIdFor(Brand::class);
             $table->boolean('is_discountable');
+            $table->string('sku');
             $table->string('name');
-            $table->string('description', 3000);
-            $table->string('color');
-            $table->string('size');
-            $table->string('material');
-            $table->string('weight_unit');
-            $table->integer('weight_amount');
-            $table->string('dimension_unit');
-            $table->integer('length');
-            $table->integer('width');
-            $table->integer('height');
+            $table->string('description', 3000)->nullable();
+            $table->string('color')->nullable();
+            $table->string('size')->nullable();
+            $table->string('material')->nullable();
+            $table->string('weight_unit')->nullable();
+            $table->integer('weight_amount')->nullable();
+            $table->string('dimension_unit')->nullable();
+            $table->integer('length')->nullable();
+            $table->integer('width')->nullable();
+            $table->integer('height')->nullable();
             $table->timestamps();
         });
     }

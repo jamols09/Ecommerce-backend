@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Branch extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'is_active',
@@ -26,4 +27,9 @@ class Branch extends Model
         'telephone',
         'mobile',
     ];
+
+    public function items(): BelongsToMany
+    {
+        return $this->belongsToMany(Branch::class)->withPivot('is_active','is_display_qty','quantity','quantity_warn');
+    }
 }

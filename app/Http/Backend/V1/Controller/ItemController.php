@@ -11,24 +11,24 @@ use Illuminate\Support\Facades\Log;
 
 class ItemController extends Controller
 {
-	protected $itemService;
+    protected $itemService;
 
     public function __construct(ItemService $itemService)
     {
         $this->itemService = $itemService;
     }
 
-	public function create(ItemCreateRequest $request)
-	{
-	
-		try {
+    public function create(ItemCreateRequest $request)
+    {
+        // Log::debug($request);
+        try {
             $result['body'] = $this->itemService->create($request->validated());
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];
-            return response()->json($result,500);
+            return response()->json($result, 500);
         }
         return response()->json($result, 200);
-	}
+    }
 }
