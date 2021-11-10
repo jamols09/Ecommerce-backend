@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Backend\V1\Services\UserService;
 use App\Http\Requests\Backend\UserCreateRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Exception;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -56,17 +59,37 @@ class UserController extends Controller
      * @param Request $request
      * @return JSON
      */
-    public function table(Request $request)
+    public function table()
     {
         try {
-            $result['body'] = $this->userService->table($request);
+            $result['body'] = QueryBuilder::for(User::class)
+                ->allowedFilters([
+                    AllowedFilter::scope('account'),
+                    'username',
+                    'first_name',
+                    'middle_name',
+                    'last_name',
+                    'created_at',
+                    'email',
+                ])
+                ->allowedSorts(
+                    'username',
+                    'first_name',
+                    'middle_name',
+                    'last_name',
+                    'created_at',
+                    'email',
+                    'is_active'
+                )
+                ->paginate(request()->query()['row'] ?? 10)
+                ->onEachSide(1);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
 
-            return response()->json($result);
+            return response()->json($result, 500);
         }
         return response()->json($result, 200);
     }
