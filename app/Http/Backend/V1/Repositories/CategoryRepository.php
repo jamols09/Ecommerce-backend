@@ -13,6 +13,7 @@ class CategoryRepository
 
     /**
      * CategoryRepository constructor.
+     * 
      * @param App\Models\Category $category
      */
     public function __construct(Category $category)
@@ -22,6 +23,7 @@ class CategoryRepository
 
     /**
      * Create category from admin
+     * 
      * @param array $data
      * @return App\Models\Category;
      */
@@ -34,6 +36,7 @@ class CategoryRepository
 
     /**
      * Get all category from dropdown
+     * 
      * @return App\Models\Category id,name
      */
     public function dropdown()
@@ -43,6 +46,7 @@ class CategoryRepository
 
     /**
      * Delete all selected id
+     * 
      * @param array $data
      * @return App\Models\Category
      */
