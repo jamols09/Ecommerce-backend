@@ -24,6 +24,7 @@ class CategoryController extends Controller
 
     /**
      * Get all category dropdown
+     * 
      * @return JSON
      */
     public function dropdown()
@@ -41,6 +42,7 @@ class CategoryController extends Controller
 
     /**
      * Geneerate category 
+     * 
      * @param App\Http\Requests\Backend\CategoryCreateRequest $request
      * @return JSON
      */
@@ -58,7 +60,8 @@ class CategoryController extends Controller
     }
 
     /**
-     * Get all category paginated
+     * Get all paginated category
+     * 
      * @return JSON
      */
     public function table()
@@ -85,7 +88,8 @@ class CategoryController extends Controller
     }
 
     /**
-     * Get all category paginated
+     * Remove category
+     * 
      * @param Illuminate\Http\Request $request
      * @return JSON
      */

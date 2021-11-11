@@ -28,6 +28,7 @@ class BranchService
 
     /**
      * Delete all selected id
+     * 
      * @param array $data
      * @return App\Models\Branch
      */
@@ -44,6 +45,7 @@ class BranchService
 
     /**
      * Set status of selected id
+     * 
      * @param array $data
      * @return App\Models\Branch
      */
