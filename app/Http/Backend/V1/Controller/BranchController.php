@@ -19,6 +19,11 @@ class BranchController extends Controller
         $this->branchService = $branchService;
     }
 
+    /**
+     * Get all branch for dropdown
+     * 
+     * @return JSON
+     */
     public function dropdown()
     {
         try {
@@ -34,6 +39,11 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * Generate branch
+     * @param App\Http\Requests\Backend\BranchCreateRequest
+     * @return JSON
+     */
     public function create(BranchCreateRequest $request)
     {
         try {
@@ -49,6 +59,11 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * Get paginated branch for table
+     * 
+     * @param Paginated Branch
+     */
     public function table()
     {
         try {
@@ -84,6 +99,12 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * Remove selected branch with relation to pivot table
+     * 
+     * @param Illuminate\Http\Request
+     * @return JSON
+     */
     public function delete(Request $request)
     {
       
@@ -100,6 +121,12 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * Set branch status to active or inactive
+     * 
+     * @param Illuminate\Http\Request
+     * @return JSON
+     */
     public function status(Request $request)
     {
       

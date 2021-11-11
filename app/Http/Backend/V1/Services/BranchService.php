@@ -21,13 +21,17 @@ class BranchService
         return $this->branchRepository->create($data);
     }
 
+    /**
+     * Get all branch
+     */
+
     public function dropdown()
     {
         return $this->branchRepository->dropdown();
     }
 
     /**
-     * Delete all selected id
+     * Remove selected branch with relation to pivot table
      * 
      * @param array $data
      * @return App\Models\Branch

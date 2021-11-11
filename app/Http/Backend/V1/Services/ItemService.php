@@ -4,6 +4,8 @@ namespace App\Http\Backend\V1\Services;
 
 use App\Models\Branch;
 use App\Models\Item;
+use Carbon\Carbon;
+use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Support\Facades\Log;
 use Nette\Utils\Strings;
 
@@ -18,6 +20,9 @@ class ItemService
 	 */
 	public function create($data): string
 	{
+		if(empty($data['sku'])) {
+			$data['sku'] = Hashids::encode(Carbon::now()->getPreciseTimestamp(3));
+		}
 		$item = Item::create($data);
 
 		foreach ($data['branches'] as $branch) {
