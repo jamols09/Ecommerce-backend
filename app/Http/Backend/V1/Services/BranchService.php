@@ -35,6 +35,7 @@ class BranchService
     {
         DB::transaction(function () use ($data) {
             foreach ($data['id'] as $value) {
+                Branch::find($value)->items()->detach();
                 $query = Branch::find($value)->delete();
             }
             return $query;
