@@ -51,8 +51,6 @@ class ItemService
 		return $item;
 	}
 
-
-
 	/**
 	 * Geneerate Unique SKU
 	 * 
