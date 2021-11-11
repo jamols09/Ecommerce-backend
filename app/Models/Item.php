@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -27,6 +28,11 @@ class Item extends Model
         'width',
         'height',
     ];
+
+    public function scopeUniqueSKU(Builder $query, string $sku)
+    {
+        return $query->where('sku', '=', $sku);
+    }
 
     public function branches(): BelongsToMany
     {
