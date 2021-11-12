@@ -5,9 +5,12 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Requests\Backend\CategoryCreateRequest;
 use App\Http\Backend\V1\Services\CategoryService;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends Controller
 {
@@ -18,6 +21,12 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
+
+    /**
+     * Get all category dropdown
+     * 
+     * @return JSON
+     */
     public function dropdown()
     {
         try {
@@ -26,11 +35,17 @@ class CategoryController extends Controller
             $result = [
                 'error' => $e->getMessage(),
             ];
-            return response()->json($result,500);
+            return response()->json($result, 500);
         }
         return response()->json($result, 200);
     }
 
+    /**
+     * Geneerate category 
+     * 
+     * @param App\Http\Requests\Backend\CategoryCreateRequest $request
+     * @return JSON
+     */
     public function create(CategoryCreateRequest $request)
     {
         try {
@@ -39,34 +54,54 @@ class CategoryController extends Controller
             $result = [
                 'error' => $e->getMessage(),
             ];
-            return response()->json($result,500);
-        }
-        return response()->json($result, 200);
-    }
-    
-    public function table(Request $request)
-    {
-        try {
-            $result['body'] = $this->categoryService->table($request);
-        } catch (Exception $e) {
-            $result = [
-                'error' => $e->getMessage(),
-            ];
-            return response()->json($result,500);
+            return response()->json($result, 500);
         }
         return response()->json($result, 200);
     }
 
+    /**
+     * Get all paginated category
+     * 
+     * @return JSON
+     */
+    public function table()
+    {
+        try {
+            $result['body'] = QueryBuilder::for(Category::class)
+                ->allowedFilters([
+                    'name',
+                    'created_at'
+                ])
+                ->allowedSorts(
+                    'name',
+                    'created_at'
+                )
+                ->paginate(request()->query()['row'] ?? 10)
+                ->onEachSide(1);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
+        return response()->json($result, 200);
+    }
+
+    /**
+     * Remove category
+     * 
+     * @param Illuminate\Http\Request $request
+     * @return JSON
+     */
     public function delete(Request $request)
     {
-        Log::debug($request);
         try {
             $result['body'] = $this->categoryService->delete($request->only(['id']));
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];
-            return response()->json($result,500);
+            return response()->json($result, 500);
         }
         return response()->json($result, 200);
     }

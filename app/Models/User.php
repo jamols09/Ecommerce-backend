@@ -38,18 +38,11 @@ class User extends Authenticatable
         'created_at' => "datetime:Y-m-d",
     ];
 
+    /**
+     * Get account type 
+     */
     public function scopeAccount(Builder $query, string $type)
     {
         return $query->where('account_type', '=', $type);
-    }
-
-    public function scopeAdmin($query)
-    {
-        return $query->where('account_type', '=', 'ADMIN');
-    }
-
-    public function scopeClient($query)
-    {
-        return $query->where('account_type', '=', 'CLIENT');
     }
 }

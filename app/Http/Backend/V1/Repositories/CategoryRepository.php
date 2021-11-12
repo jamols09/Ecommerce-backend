@@ -4,6 +4,7 @@ namespace App\Http\Backend\V1\Repositories;
 
 use App\Models\Category;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CategoryRepository
@@ -12,7 +13,8 @@ class CategoryRepository
 
     /**
      * CategoryRepository constructor.
-     * @param Category 
+     * 
+     * @param App\Models\Category $category
      */
     public function __construct(Category $category)
     {
@@ -21,16 +23,20 @@ class CategoryRepository
 
     /**
      * Create category from admin
+     * 
      * @param array $data
      * @return App\Models\Category;
      */
-    public function create($data)
+    public function create(array $data)
     {
-        return $this->category::create($data);
+        DB::transaction(function () use ($data) {
+            return $this->category::create($data);
+        });
     }
 
     /**
      * Get all category from dropdown
+     * 
      * @return App\Models\Category id,name
      */
     public function dropdown()
@@ -39,50 +45,18 @@ class CategoryRepository
     }
 
     /**
-     * Get all category paginated
-     * @param array $data
-     * @return App\Models\Category
-     */
-    public function table($data)
-    {
-
-        $query = $this->category::query()->with('parent:id,name');
-
-        switch (strtolower($data['type'])) {
-            case 'created at':
-                $query = $query->where('created_at', 'LIKE', '%' . $data['q'] . '%');
-                break;
-            case 'name':
-                $query = $query->where('name', 'LIKE', '%' . $data['q'] . '%');
-                break;
-            default:
-                # code...
-                break;
-        }
-
-        if ($data['col']) {
-            $query = $query->orderBy(str_replace(' ', '_', $data['col'] ?? 'name'), $data['order'] ?? 'asc');
-        }
-
-        if ($data['row']) {
-            $query = $query->paginate($data['row'] ?? 1)->onEachSide(1);
-        }
-
-        return $query;
-    }
-
-    /**
      * Delete all selected id
+     * 
      * @param array $data
      * @return App\Models\Category
      */
-    public function delete($data)
+    public function delete(array $data)
     {
-        
-        foreach ($data['id'] as $value) {
-            $query = $this->category::find($value)->delete();
-        }
-
-        return $query;
+        DB::transaction(function () use ($data) {
+            foreach ($data['id'] as $value) {
+                $query = $this->category::find($value)->delete();
+            }
+            return $query;
+        });
     }
 }

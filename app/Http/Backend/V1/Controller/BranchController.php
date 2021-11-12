@@ -5,8 +5,10 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Backend\V1\Services\BranchService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\BranchCreateRequest;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use Exception;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class BranchController extends Controller
 {
@@ -17,6 +19,11 @@ class BranchController extends Controller
         $this->branchService = $branchService;
     }
 
+    /**
+     * Get all branch for dropdown
+     * 
+     * @return JSON
+     */
     public function dropdown()
     {
         try {
@@ -32,6 +39,11 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * Generate branch
+     * @param App\Http\Requests\Backend\BranchCreateRequest
+     * @return JSON
+     */
     public function create(BranchCreateRequest $request)
     {
         try {
@@ -47,19 +59,52 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
-    public function table(Request $request)
+    /**
+     * Get paginated branch for table
+     * 
+     * @param Paginated Branch
+     */
+    public function table()
     {
         try {
-            $result['body'] = $this->branchService->table($request);
-        } catch (Exception $e) {
+            $result['body'] = QueryBuilder::for(Branch::class)
+                ->allowedFilters([
+                    'name',
+                    'code',
+                    'city',
+                    'barangay',
+                    'address_line_1',
+                    'telephone',
+                    'mobile',
+                ])
+                ->allowedSorts(
+                    'name',
+                    'code',
+                    'city',
+                    'barangay',
+                    'address_line_1',
+                    'telephone',
+                    'mobile',
+                    'is_active'
+                )
+                ->paginate(request()->query()['row'] ?? 10)
+                ->onEachSide(1);
+        } catch (\Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
+                'status' => 500,
             ];
-            return response()->json($result,500);
+            return response()->json($result, 500);
         }
         return response()->json($result, 200);
     }
 
+    /**
+     * Remove selected branch with relation to pivot table
+     * 
+     * @param Illuminate\Http\Request
+     * @return JSON
+     */
     public function delete(Request $request)
     {
       
@@ -76,6 +121,12 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * Set branch status to active or inactive
+     * 
+     * @param Illuminate\Http\Request
+     * @return JSON
+     */
     public function status(Request $request)
     {
       

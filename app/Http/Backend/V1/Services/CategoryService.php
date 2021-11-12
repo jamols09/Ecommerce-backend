@@ -24,11 +24,6 @@ class CategoryService
 		return $this->categoryRepository->dropdown();
 	}
 
-	public function table($data)
-	{
-		return $this->categoryRepository->table($data);
-	}
-
 	public function delete($data)
 	{
 		return $this->categoryRepository->delete($data);

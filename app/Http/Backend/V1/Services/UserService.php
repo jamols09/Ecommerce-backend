@@ -17,7 +17,12 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function create($data)
+    /**
+     * Generate account
+     * 
+     * @param array $data
+     */
+    public function create(array $data)
     {
         if (in_array('api_bypass', $data)) {
             $data = $this->userRepository->createApi($data);
