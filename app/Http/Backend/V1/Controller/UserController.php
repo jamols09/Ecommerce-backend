@@ -35,7 +35,7 @@ class UserController extends Controller
     /**
      * Generate user account
      * 
-     * @param UserCreateRequest $request
+     * @param App\Http\Requests\Backend\UserCreateRequest
      * @return JSON
      */
     public function create(UserCreateRequest $request)
