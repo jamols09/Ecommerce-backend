@@ -28,6 +28,9 @@ class Branch extends Model
         'mobile',
     ];
 
+    /**
+     * Get item connected by specified branch
+     */
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class)->withPivot('is_active','is_display_qty','quantity','quantity_warn')->withTimestamps();

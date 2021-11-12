@@ -56,7 +56,7 @@ class Item extends Model
     }
 
     /**
-     * Get all items related to specified branch
+     * Gets branch connected by specified item
      */
     public function branches(): BelongsToMany
     {
