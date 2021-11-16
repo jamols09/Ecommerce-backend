@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ItemController extends Controller
@@ -72,19 +73,31 @@ class ItemController extends Controller
     {
         try {
             $result['body'] = QueryBuilder::for(Item::class)
-                ->with('department','brand')
+                ->select([
+                    'items.id',
+                    'items.name',
+                    'items.department_id',
+                    'items.brand_id',
+                    'items.is_discountable',
+                    'items.created_at',
+                ])
+                ->with(
+                    'department:departments.id,name',
+                    'brand:brands.id,name',
+                    // 'branches'
+                )
                 ->allowedFilters([
                     AllowedFilter::custom('branch', new FilterBranchItem()),
                     'name',
-                    'sku',
+                    'is_discountable',
                     'created_at'
                 ])
                 ->allowedSorts(
                     'name',
-                    'sku',
+                    'is_discountable',
                     'created_at',
                 )
-                ->paginate(request()->query()['row'] ?? 10)
+                ->paginate(request()->query()['row'] ?? 100)
                 ->onEachSide(1);
         } catch (Exception $e) {
             $result = [

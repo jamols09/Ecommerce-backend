@@ -36,6 +36,7 @@ Route::post('/users/delete', [UserController::class, 'delete']);
 Route::post('/users/status', [UserController::class, 'status']);
 
 Route::post('/item', [ItemController::class, 'create']);
+Route::get('/item', [ItemController::class, 'table']);
 Route::get('/item/dropdown/{id}', [ItemController::class, 'dropdown']);
 
 Route::get('/department/dropdown', [DepartmentController::class, 'dropdown']);
