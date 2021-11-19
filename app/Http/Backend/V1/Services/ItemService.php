@@ -13,8 +13,7 @@ class ItemService
 {
 
 	/**
-	 * Create item and create items per branch on pivot table
-	 * Will generate SKU if not provided
+	 * Create item, will generate SKU if not provided
 	 * 
 	 * @param Array $data
 	 * @return string name
@@ -35,7 +34,7 @@ class ItemService
 	}
 
 	/**
-	 * Generate items per branch
+	 * Generate item per branch on pivot table
 	 * 
 	 * @param Array $data
 	 * @param App\Models\Item $item

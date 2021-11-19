@@ -23,7 +23,7 @@ class CreateBranchItemTable extends Migration
             $table->boolean('is_display_qty');
             $table->integer('quantity');
             $table->integer('quantity_warn');
-            $table->integer('price');
+            $table->float('price');
             $table->timestamps();
         });
     }
