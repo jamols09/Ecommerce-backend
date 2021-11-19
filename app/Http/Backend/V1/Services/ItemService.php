@@ -5,6 +5,8 @@ namespace App\Http\Backend\V1\Services;
 use App\Models\Branch;
 use App\Models\Item;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Vinkla\Hashids\Facades\Hashids;
 
 class ItemService
@@ -17,24 +19,47 @@ class ItemService
 	 * @param Array $data
 	 * @return string name
 	 */
-	public function create($data): string
+	public function create(array $data): string
 	{
 		if (empty($data['sku'])) {
 			$data['sku'] = $this->generateSKU();
 		}
 
-		$item = Item::create($data);
+		$name = DB::transaction(function () use ($data) {
+			$item = Item::create($data);
+			$this->attachBranchItems($data, $item);
+			return $item->name;
+		});
+		
+		return $name;
+	}
 
-		foreach ($data['branches'] as $branch) {
-			$item->branches()->attach($branch, [
+	/**
+	 * Generate items per branch
+	 * 
+	 * @param Array $data
+	 * @param App\Models\Item $item
+	 */
+	protected function attachBranchItems(array $data, Item $item): void
+	{
+		if ($data['branches'][0] != -1) {
+			foreach ($data['branches'] as $branch) {
+				$item->branches()->attach($branch, [
+					'is_active' => $data['is_active'],
+					'is_display_qty' => $data['is_display_qty'],
+					'quantity' => $data['quantity'],
+					'quantity_warn' => $data['quantity_warn']
+				]);
+			}
+		} else {
+			$branch_ids = Branch::pluck('id')->toArray();
+			$item->branches()->syncWithPivotValues($branch_ids, [
 				'is_active' => $data['is_active'],
 				'is_display_qty' => $data['is_display_qty'],
 				'quantity' => $data['quantity'],
 				'quantity_warn' => $data['quantity_warn']
-			]);
+			], false);
 		}
-
-		return $item->name;
 	}
 
 	/**

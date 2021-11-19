@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Backend;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class ItemCreateRequest extends FormRequest
 {
@@ -23,13 +24,12 @@ class ItemCreateRequest extends FormRequest
      */
     public function rules()
     {
-
         return  [
+            'name' => 'required|unique:items,name|max:100',
             'branches' => 'required',
             'department_id' => 'nullable|numeric',
             'brand_id' => 'nullable|numeric',
             'is_discountable' => 'required|boolean',
-            'name' => 'required|unique:items,name|max:100',
             'description' => 'nullable',
             'sku' => 'nullable|unique:items,sku|alpha_num',
             'is_active' => 'required|boolean',
