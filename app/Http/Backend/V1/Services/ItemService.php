@@ -30,7 +30,7 @@ class ItemService
 			$this->attachBranchItems($data, $item);
 			return $item->name;
 		});
-		
+
 		return $name;
 	}
 
@@ -43,21 +43,21 @@ class ItemService
 	protected function attachBranchItems(array $data, Item $item): void
 	{
 		if ($data['branches'][0] != -1) {
-			foreach ($data['branches'] as $branch) {
-				$item->branches()->attach($branch, [
-					'is_active' => $data['is_active'],
-					'is_display_qty' => $data['is_display_qty'],
-					'quantity' => $data['quantity'],
-					'quantity_warn' => $data['quantity_warn']
-				]);
-			}
+			$item->branches()->attach($data['branches'], [
+				'is_active' => $data['is_active'],
+				'is_display_qty' => $data['is_display_qty'],
+				'quantity' => $data['quantity'],
+				'quantity_warn' => $data['quantity_warn'],
+				'price' => $data['price'],
+			]);
 		} else {
 			$branch_ids = Branch::pluck('id')->toArray();
 			$item->branches()->syncWithPivotValues($branch_ids, [
 				'is_active' => $data['is_active'],
 				'is_display_qty' => $data['is_display_qty'],
 				'quantity' => $data['quantity'],
-				'quantity_warn' => $data['quantity_warn']
+				'quantity_warn' => $data['quantity_warn'],
+				'price' => $data['price'],
 			], false);
 		}
 	}
