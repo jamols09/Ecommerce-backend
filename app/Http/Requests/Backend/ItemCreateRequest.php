@@ -25,26 +25,27 @@ class ItemCreateRequest extends FormRequest
     public function rules()
     {
         return  [
-            'name' => 'required|unique:items,name|max:100',
+            'name' => ['required','unique:items,name','max:100'],
             'branches' => 'required',
             'department_id' => 'nullable|numeric',
             'brand_id' => 'nullable|numeric',
             'is_discountable' => 'required|boolean',
             'description' => 'nullable',
-            'sku' => 'nullable|unique:items,sku|alpha_num',
+            'sku' => ['nullable','unique:items,sku','alpha_num'],
             'is_active' => 'required|boolean',
             'is_display_qty' => 'required|boolean',
-            'quantity' => 'required|numeric',
-            'quantity_warn' => 'required|numeric',
+            'quantity' => ['required','numeric','min:0'],
+            'quantity_warn' => ['required','numeric','min:0'],
             'color' => 'nullable|alpha',
             'size' => 'nullable|alpha_num',
             'material' => 'nullable',
-            'weight_unit' => 'nullable|in:GRAM,KILOGRAM',
+            'weight_unit' => ['nullable','in:GRAM,KILOGRAM'],
             'weight_amount' => 'nullable|numeric',
             'dimension_unit' => 'nullable|in:INCH,CENTIMETER',
             'length' => 'nullable|numeric',
             'width' => 'nullable|numeric',
             'height' => 'nullable|numeric',
+            'price' => ['required','numeric','min:1']
         ];
     }
 }
