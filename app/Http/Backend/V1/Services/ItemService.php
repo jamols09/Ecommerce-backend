@@ -5,36 +5,60 @@ namespace App\Http\Backend\V1\Services;
 use App\Models\Branch;
 use App\Models\Item;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Vinkla\Hashids\Facades\Hashids;
 
 class ItemService
 {
 
 	/**
-	 * Create item and create items per branch on pivot table
-	 * Will generate SKU if not provided
+	 * Create item, will generate SKU if not provided
 	 * 
 	 * @param Array $data
 	 * @return string name
 	 */
-	public function create($data): string
+	public function create(array $data): string
 	{
 		if (empty($data['sku'])) {
 			$data['sku'] = $this->generateSKU();
 		}
 
-		$item = Item::create($data);
+		$name = DB::transaction(function () use ($data) {
+			$item = Item::create($data);
+			$this->attachBranchItems($data, $item);
+			return $item->name;
+		});
 
-		foreach ($data['branches'] as $branch) {
-			$item->branches()->attach($branch, [
+		return $name;
+	}
+
+	/**
+	 * Generate item per branch on pivot table
+	 * 
+	 * @param Array $data
+	 * @param App\Models\Item $item
+	 */
+	protected function attachBranchItems(array $data, Item $item): void
+	{
+		if ($data['branches'][0] != -1) {
+			$item->branches()->attach($data['branches'], [
 				'is_active' => $data['is_active'],
 				'is_display_qty' => $data['is_display_qty'],
 				'quantity' => $data['quantity'],
-				'quantity_warn' => $data['quantity_warn']
+				'quantity_warn' => $data['quantity_warn'],
+				'price' => $data['price'],
 			]);
+		} else {
+			$branch_ids = Branch::pluck('id')->toArray();
+			$item->branches()->syncWithPivotValues($branch_ids, [
+				'is_active' => $data['is_active'],
+				'is_display_qty' => $data['is_display_qty'],
+				'quantity' => $data['quantity'],
+				'quantity_warn' => $data['quantity_warn'],
+				'price' => $data['price'],
+			], false);
 		}
-
-		return $item->name;
 	}
 
 	/**
