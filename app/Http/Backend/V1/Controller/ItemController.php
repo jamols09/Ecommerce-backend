@@ -80,22 +80,24 @@ class ItemController extends Controller
                     'items.brand_id',
                     'items.is_discountable',
                     'items.created_at',
+                    'items.sku'
                 ])
                 ->with(
                     'department:departments.id,name',
                     'brand:brands.id,name',
-                    // 'branches'
                 )
                 ->allowedFilters([
                     AllowedFilter::custom('branch', new FilterBranchItem()),
                     'name',
                     'is_discountable',
-                    'created_at'
+                    'created_at',
+                    'sku'
                 ])
                 ->allowedSorts(
                     'name',
                     'is_discountable',
                     'created_at',
+                    'sku'
                 )
                 ->paginate(request()->query()['row'] ?? 100)
                 ->onEachSide(1);
