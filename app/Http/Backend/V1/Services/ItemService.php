@@ -34,6 +34,20 @@ class ItemService
 	}
 
 	/**
+	 * Generate Unique SKU
+	 * 
+	 * @return string sku
+	 */
+	protected function generateSKU(string $sku = NULL)
+	{
+		$sku = Hashids::encode(Carbon::now()->getPreciseTimestamp(3));
+		if (Item::uniqueSKU($sku)->count() > 0) {
+			$this->generateSKU();
+		}
+		return $sku;
+	}
+
+	/**
 	 * Generate item per branch on pivot table
 	 * 
 	 * @param Array $data
@@ -66,9 +80,9 @@ class ItemService
 	 * 
 	 * @return key,value id,name
 	 */
-	public function dropdown($id)
+	public function dropdown($data)
 	{
-		$branch = Branch::find($id['id']);
+		$branch = Branch::find($data['id']);
 		$item = $branch->items()->where('is_active', 1)->pluck('items.name', 'items.id');
 		// or use get(['items.id','items.name']) but this will also display pivot columns on result
 
@@ -76,16 +90,14 @@ class ItemService
 	}
 
 	/**
-	 * Geneerate Unique SKU
-	 * 
-	 * @return string sku
+	 * Update item status columns: is_discountable
 	 */
-	protected function generateSKU(string $sku = NULL)
+	public function status(array $data)
 	{
-		$sku = Hashids::encode(Carbon::now()->getPreciseTimestamp(3));
-		if (Item::uniqueSKU($sku)->count() > 0) {
-			$this->generateSKU();
-		}
-		return $sku;
+		$discountable = $data['state'] == 'discountable' ? 1 : 0;
+		Log::debug($discountable);
+		DB::transaction(function () use ($data, $discountable) {
+			Item::where('id', $data['id'])->update(['is_discountable' => $discountable]);
+		});
 	}
 }

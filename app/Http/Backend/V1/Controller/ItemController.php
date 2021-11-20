@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\FilterBranchItem;
 use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemGetRequest;
+use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Models\Item;
 use Exception;
 use Illuminate\Http\Request;
@@ -101,6 +102,26 @@ class ItemController extends Controller
                 )
                 ->paginate(request()->query()['row'] ?? 100)
                 ->onEachSide(1);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
+        return response()->json($result, 200);
+    }
+
+
+    /**
+     * General item status: will apply to all branches for specific item.
+     * Applies status change to column: is_discountable
+     * 
+     * @param Illuminate\Http\Request $request
+     */
+    public function status(ItemUpdateStatusRequest $request) 
+    {
+        try {
+            $result['body'] = $this->itemService->status($request->validated());
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
