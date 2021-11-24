@@ -91,11 +91,12 @@ class ItemService
 
 	/**
 	 * Update item status columns: is_discountable
+	 * 
+	 * @param Array $data
 	 */
 	public function status(array $data)
 	{
 		$discountable = $data['state'] == 'discountable' ? 1 : 0;
-		Log::debug($discountable);
 		DB::transaction(function () use ($data, $discountable) {
 			Item::where('id', $data['id'])->update(['is_discountable' => $discountable]);
 		});

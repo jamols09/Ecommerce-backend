@@ -5,6 +5,7 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Backend\V1\Services\BranchService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\BranchCreateRequest;
+use App\Http\Resources\Backend\BranchTableCollection;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Exception;
@@ -67,7 +68,7 @@ class BranchController extends Controller
     public function table()
     {
         try {
-            $result['body'] = QueryBuilder::for(Branch::class)
+            $data = QueryBuilder::for(Branch::class)
                 ->allowedFilters([
                     'name',
                     'code',
@@ -89,6 +90,7 @@ class BranchController extends Controller
                 )
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
+            return new BranchTableCollection($data);
         } catch (\Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
