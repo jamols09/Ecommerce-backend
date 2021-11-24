@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\FilterBranchItem;
 use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemGetRequest;
+use App\Http\Requests\Backend\ItemUpdateStatusRequest;
+use App\Http\Resources\Backend\ItemTableCollection;
 use App\Models\Item;
 use Exception;
 use Illuminate\Http\Request;
@@ -72,7 +74,7 @@ class ItemController extends Controller
     public function table(Request $result)
     {
         try {
-            $result['body'] = QueryBuilder::for(Item::class)
+            $data = QueryBuilder::for(Item::class)
                 ->select([
                     'items.id',
                     'items.name',
@@ -85,6 +87,7 @@ class ItemController extends Controller
                 ->with(
                     'department:departments.id,name',
                     'brand:brands.id,name',
+                    'branches:branches.id,is_active'
                 )
                 ->allowedFilters([
                     AllowedFilter::custom('branch', new FilterBranchItem()),
@@ -101,6 +104,28 @@ class ItemController extends Controller
                 )
                 ->paginate(request()->query()['row'] ?? 100)
                 ->onEachSide(1);
+                // $result['body'] = $data;
+            return new ItemTableCollection($data);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
+        // return response()->json($result, 200);
+    }
+
+
+    /**
+     * General item status: will apply to all branches for specific item.
+     * Applies status change to column: is_discountable
+     * 
+     * @param Illuminate\Http\Request $request
+     */
+    public function status(ItemUpdateStatusRequest $request) 
+    {
+        try {
+            $result['body'] = $this->itemService->status($request->validated());
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Backend\V1\Services\UserService;
 use App\Http\Requests\Backend\UserCreateRequest;
+use App\Http\Resources\Backend\UserTableCollection;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -62,7 +63,7 @@ class UserController extends Controller
     public function table()
     {
         try {
-            $result['body'] = QueryBuilder::for(User::class)
+            $data = QueryBuilder::for(User::class)
                 ->allowedFilters([
                     AllowedFilter::scope('account'),
                     'username',
@@ -83,6 +84,7 @@ class UserController extends Controller
                 )
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
+            return new UserTableCollection($data);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),

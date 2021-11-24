@@ -5,6 +5,7 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Requests\Backend\CategoryCreateRequest;
 use App\Http\Backend\V1\Services\CategoryService;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Backend\CategoryTableCollection;
 use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
@@ -67,7 +68,7 @@ class CategoryController extends Controller
     public function table()
     {
         try {
-            $result['body'] = QueryBuilder::for(Category::class)
+            $data = QueryBuilder::for(Category::class)
                 ->allowedFilters([
                     'name',
                     'created_at'
@@ -78,6 +79,7 @@ class CategoryController extends Controller
                 )
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
+            return new CategoryTableCollection($data);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
