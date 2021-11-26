@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Item extends Model
 {
@@ -62,5 +63,10 @@ class Item extends Model
         return $this->belongsToMany(Branch::class)
             ->withPivot('is_active', 'is_display_qty', 'quantity', 'quantity_warn')
             ->withTimestamps();
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(ItemsImages::class);
     }
 }
