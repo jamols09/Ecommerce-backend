@@ -65,8 +65,19 @@ class Item extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Item has many images
+     */
     public function images(): HasMany
     {
         return $this->hasMany(ItemsImages::class);
+    }
+
+    /**
+     * Item has one or many videos
+     */
+    public function videos(): HasMany
+    {
+        return $this->hasMany(ItemsVideos::class);
     }
 }
