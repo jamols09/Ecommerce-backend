@@ -8,6 +8,8 @@ use App\Http\Filters\FilterBranchItem;
 use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemGetRequest;
 use App\Http\Requests\Backend\ItemUpdateStatusRequest;
+use App\Http\Resources\Backend\ItemDropdownCollection;
+use App\Http\Resources\Backend\ItemDropdownResource;
 use App\Http\Resources\Backend\ItemTableCollection;
 use App\Models\Item;
 use Exception;
@@ -55,7 +57,7 @@ class ItemController extends Controller
     public function dropdown(ItemGetRequest $request)
     {
         try {
-            $result['body'] = $this->itemService->dropdown($request->validated());
+            $result['result'] = new ItemDropdownCollection($this->itemService->dropdown($request->validated()));
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
@@ -104,7 +106,6 @@ class ItemController extends Controller
                 )
                 ->paginate(request()->query()['row'] ?? 100)
                 ->onEachSide(1);
-                // $result['body'] = $data;
             return new ItemTableCollection($data);
         } catch (Exception $e) {
             $result = [

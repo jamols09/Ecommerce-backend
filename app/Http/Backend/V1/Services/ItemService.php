@@ -83,12 +83,11 @@ class ItemService
 	public function dropdown($data)
 	{
 		$branch = Branch::find($data['id']);
-		$item = $branch->items()->where('is_active', 1)->pluck('items.name', 'items.id');
+		// $item = $branch->items()->where('is_active', 1)->pluck('items.name', 'items.id');
 		// or use get(['items.id','items.name']) but this will also display pivot columns on result
-
-		return $item;
+		return $branch->items()->where('is_active', 1)->get(['items.id','items.name']);;
 	}
-
+		
 	/**
 	 * Update item status columns: is_discountable
 	 * 
