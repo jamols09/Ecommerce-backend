@@ -16,18 +16,22 @@ class BranchService
         $this->branchRepository = $branchRepository;
     }
 
+    /**
+     * Create branch
+     */
     public function create($data)
     {
-        return $this->branchRepository->create($data);
+        DB::transaction(function () use ($data) {
+            return Branch::create($data);
+        });
     }
 
     /**
-     * Get all branch
+     * Get all active branch
      */
-
     public function dropdown()
     {
-        return $this->branchRepository->dropdown();
+        return Branch::active()->orderBy('name')->get();
     }
 
     /**

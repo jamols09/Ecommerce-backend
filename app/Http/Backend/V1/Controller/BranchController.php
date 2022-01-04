@@ -5,6 +5,7 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Backend\V1\Services\BranchService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\BranchCreateRequest;
+use App\Http\Resources\Backend\BranchDropdownCollection;
 use App\Http\Resources\Backend\BranchTableCollection;
 use App\Models\Branch;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class BranchController extends Controller
     public function dropdown()
     {
         try {
-            $result['body'] = $this->branchService->dropdown();
+            $result['result'] = new BranchDropdownCollection($this->branchService->dropdown());
         }
         catch(Exception $e) {
             $result = [
