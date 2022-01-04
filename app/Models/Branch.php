@@ -35,4 +35,12 @@ class Branch extends Model
     {
         return $this->belongsToMany(Item::class)->withPivot('is_active','is_display_qty','quantity','quantity_warn')->withTimestamps();
     }
+
+    /**
+     * Get active branch only
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
 }
