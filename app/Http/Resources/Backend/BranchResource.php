@@ -8,14 +8,6 @@ class BranchResource extends JsonResource
 {
 
     /**
-     * The "data" wrapper that should be applied.
-     *
-     * @var string
-     */
-
-    public static $wrap = 'result';
-
-    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
