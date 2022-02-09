@@ -6,6 +6,7 @@ use App\Http\Backend\V1\Services\BranchService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\BranchCreateRequest;
 use App\Http\Resources\Backend\BranchDropdownCollection;
+use App\Http\Resources\Backend\BranchResource;
 use App\Http\Resources\Backend\BranchTableCollection;
 use App\Models\Branch;
 use Illuminate\Http\Request;
@@ -30,14 +31,13 @@ class BranchController extends Controller
     {
         try {
             $result['result'] = new BranchDropdownCollection($this->branchService->dropdown());
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];
             return response()->json($result, 500);
         }
-       
+
         return response()->json($result, 200);
     }
 
@@ -50,14 +50,13 @@ class BranchController extends Controller
     {
         try {
             $result['body'] = $this->branchService->create($request->validated());
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];
             return response()->json($result, 500);
         }
-       
+
         return response()->json($result, 200);
     }
 
@@ -110,7 +109,7 @@ class BranchController extends Controller
      */
     public function delete(Request $request)
     {
-      
+
         try {
             $result['body'] = $this->branchService->delete($request);
         } catch (Exception $e) {
@@ -118,7 +117,7 @@ class BranchController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
-          
+
             return response()->json($result);
         }
         return response()->json($result, 200);
@@ -132,7 +131,7 @@ class BranchController extends Controller
      */
     public function status(Request $request)
     {
-      
+
         try {
             $result['body'] = $this->branchService->status($request);
         } catch (Exception $e) {
@@ -140,9 +139,26 @@ class BranchController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
-          
+
             return response()->json($result);
         }
         return response()->json($result, 200);
+    }
+
+    /**
+     * Get branch id details
+     * 
+     */
+
+    public function show(Branch $id)
+    {
+        try {
+            return new BranchResource($id);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
     }
 }
