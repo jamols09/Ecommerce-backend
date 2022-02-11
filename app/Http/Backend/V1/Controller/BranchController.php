@@ -5,13 +5,16 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Backend\V1\Services\BranchService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\BranchCreateRequest;
+use App\Http\Requests\Backend\BranchEditRequest;
 use App\Http\Resources\Backend\BranchDropdownCollection;
 use App\Http\Resources\Backend\BranchResource;
 use App\Http\Resources\Backend\BranchTableCollection;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
+use Symfony\Component\ErrorHandler\Debug;
 
 class BranchController extends Controller
 {
@@ -148,8 +151,9 @@ class BranchController extends Controller
     /**
      * Get branch id details
      * 
+     * @param App\Models\Branch
+     * @return JSON
      */
-
     public function show(Branch $id)
     {
         try {
@@ -160,5 +164,20 @@ class BranchController extends Controller
             ];
             return response()->json($result, 500);
         }
+    }
+
+    public function update(BranchEditRequest $request, $id)
+    {
+        try {
+            $result['id'] = $id;
+            $result['success'] = $this->branchService->update($request->validated(), $id);
+        }
+        catch(Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
+        return response()->json($result, 200);
     }
 }
