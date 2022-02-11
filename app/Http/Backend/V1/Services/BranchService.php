@@ -6,6 +6,7 @@ use Exception;
 use App\Http\Backend\V1\Repositories\BranchRepository;
 use App\Models\Branch;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BranchService
 {
@@ -64,6 +65,19 @@ class BranchService
                 $query = Branch::find($value)->update(['is_active' => $data['status'] == 'activate' ? 1 : 0]);
             }
             return $query;
+        });
+    }
+
+    /**
+     * Update branch details
+     * 
+     * @param array details
+     * @param integer id
+     */
+    public function update($data, $id)
+    {
+        return DB::transaction(function () use ($data, $id) {
+            return Branch::find($id)->update($data);
         });
     }
 }
