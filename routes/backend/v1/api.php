@@ -19,13 +19,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::middleware('auth:sanctum')->group( function () {
-Route::post('/branch', [BranchController::class, 'create']);
-Route::get('/branch', [BranchController::class, 'table']);
-Route::get('/branch/dropdown', [BranchController::class, 'dropdown']);
-Route::post('/branch/delete', [BranchController::class, 'delete']);
-Route::post('/branch/status', [BranchController::class, 'status']);
-Route::get('/branch/{id}', [BranchController::class, 'show']);
-Route::patch('/branch/{id}', [BranchController::class, 'update']);
+Route::prefix('branch')->group(function () {
+    Route::post('/', [BranchController::class, 'create']);
+    Route::get('/', [BranchController::class, 'table']);
+    Route::get('/dropdown', [BranchController::class, 'dropdown']);
+    Route::post('/delete', [BranchController::class, 'destroy']);
+    Route::post('/status', [BranchController::class, 'status']);
+    Route::get('/{id}', [BranchController::class, 'show']);
+    Route::patch('/{id}', [BranchController::class, 'update']);
+});
+
 
 Route::get('/category', [CategoryController::class, 'table']);
 Route::get('/category/dropdown', [CategoryController::class, 'dropdown']);
@@ -45,10 +48,9 @@ Route::get('/item/dropdown/{id}', [ItemController::class, 'dropdown']);
 Route::get('/department/dropdown', [DepartmentController::class, 'dropdown']);
 Route::post('/department', [DepartmentController::class, 'create']);
 
-Route::get('/brand/dropdown',[BrandController::class, 'dropdown']);
+Route::get('/brand/dropdown', [BrandController::class, 'dropdown']);
 Route::post('/brand', [BrandController::class, 'create']);
 // });
 
 //Auth
 Route::post('/login', [UserController::class, 'login']);
-
