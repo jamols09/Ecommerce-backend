@@ -19,6 +19,8 @@ class BranchService
 
     /**
      * Create branch
+     * 
+     * @return App\Models\Branch
      */
     public function create($data)
     {
@@ -29,6 +31,8 @@ class BranchService
 
     /**
      * Get all active branch
+     * 
+     * @return App\Models\Branch
      */
     public function dropdown()
     {

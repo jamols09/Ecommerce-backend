@@ -33,8 +33,9 @@ Route::prefix('category')->group(function () {
     Route::get('/', [CategoryController::class, 'table']);
     Route::get('/dropdown', [CategoryController::class, 'dropdown']);
     Route::post('/', [CategoryController::class, 'create']);
-    Route::get('/{id}', [CategoryController::class, 'show']);
     Route::post('/delete', [CategoryController::class, 'delete']);    
+    Route::get('/{id}', [CategoryController::class, 'show']);
+    Route::patch('/{id}', [CategoryController::class, 'update']);
 });
 
 Route::post('/users', [UserController::class, 'create']);

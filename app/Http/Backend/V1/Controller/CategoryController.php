@@ -5,6 +5,7 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Requests\Backend\CategoryCreateRequest;
 use App\Http\Backend\V1\Services\CategoryService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\CategoryEditRequest;
 use App\Http\Resources\Backend\CategoryResource;
 use App\Http\Resources\Backend\CategoryTableCollection;
 use App\Models\Category;
@@ -119,6 +120,27 @@ class CategoryController extends Controller
     {
         try {
             return new CategoryResource($id);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
+        return response()->json($result, 200);
+    }
+
+    /**
+     * Update Category details by id
+     * 
+     * @param App\Http\Requests\Backend\CategoryEditRequest $request
+     * @param App\Models\Category $id
+     * @return JSON
+     */
+    public function update(CategoryEditRequest $request, $id)
+    {
+        try {
+            $result['id'] = $id;
+            $result['success'] = $this->categoryService->update($request->validated(), $id);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
