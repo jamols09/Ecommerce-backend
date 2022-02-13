@@ -31,7 +31,6 @@ class UserEditRequest extends FormRequest
             'thumbnail' => 'nullable',
             'birthdate' => 'sometimes|before:today',
             'is_active' => 'nullable|boolean',
-            'email' => 'sometimes|unique:users,email',
         ];
     }
 }
