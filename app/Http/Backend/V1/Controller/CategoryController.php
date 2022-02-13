@@ -109,6 +109,12 @@ class CategoryController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * Get Category id details
+     * 
+     * @param App\Models\Category $id
+     * @return JSON
+     */
     public function show(Category $id)
     {
         try {
