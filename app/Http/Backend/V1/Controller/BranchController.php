@@ -46,7 +46,7 @@ class BranchController extends Controller
 
     /**
      * Generate branch
-     * @param App\Http\Requests\Backend\BranchCreateRequest
+     * @param App\Http\Requests\Backend\BranchCreateRequest $request
      * @return JSON
      */
     public function create(BranchCreateRequest $request)
@@ -66,7 +66,7 @@ class BranchController extends Controller
     /**
      * Get paginated branch for table
      * 
-     * @param Paginated Branch
+     * @return Spatie\QueryBuilder\QueryBuilder 
      */
     public function table()
     {
@@ -107,12 +107,11 @@ class BranchController extends Controller
     /**
      * Remove selected branch with relation to pivot table
      * 
-     * @param Illuminate\Http\Request
+     * @param Illuminate\Http\Request $request
      * @return JSON
      */
-    public function delete(Request $request)
+    public function destroy(Request $request)
     {
-
         try {
             $result['body'] = $this->branchService->delete($request);
         } catch (Exception $e) {
@@ -129,7 +128,7 @@ class BranchController extends Controller
     /**
      * Set branch status to active or inactive
      * 
-     * @param Illuminate\Http\Request
+     * @param Illuminate\Http\Request $request
      * @return JSON
      */
     public function status(Request $request)
@@ -151,7 +150,7 @@ class BranchController extends Controller
     /**
      * Get branch id details
      * 
-     * @param App\Models\Branch
+     * @param App\Models\Branch $id
      * @return JSON
      */
     public function show(Branch $id)
@@ -166,6 +165,12 @@ class BranchController extends Controller
         }
     }
 
+    /**
+     * Update branch details by id
+     * 
+     * @param App\Http\Requests\Backend\BranchEditRequest $request
+     * @param integer $id
+     */
     public function update(BranchEditRequest $request, $id)
     {
         try {
