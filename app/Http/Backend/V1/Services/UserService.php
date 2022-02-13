@@ -64,4 +64,17 @@ class UserService
             return $query;
         });
     }
+
+    /**
+     * Update User details
+     * 
+     * @param array details
+     * @param integer id
+     */
+    public function update($data, $id)
+    {
+        return DB::transaction(function () use ($data, $id) {
+            return User::find($id)->update($data);
+        });
+    }
 }

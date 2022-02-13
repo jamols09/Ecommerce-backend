@@ -38,10 +38,14 @@ Route::prefix('category')->group(function () {
     Route::patch('/{id}', [CategoryController::class, 'update']);
 });
 
-Route::post('/users', [UserController::class, 'create']);
-Route::get('/users', [UserController::class, 'table']);
-Route::post('/users/delete', [UserController::class, 'delete']);
-Route::post('/users/status', [UserController::class, 'status']);
+Route::prefix('users')->group(function () {
+    Route::post('/', [UserController::class, 'create']);
+    Route::get('/', [UserController::class, 'table']);
+    Route::post('/delete', [UserController::class, 'delete']);
+    Route::post('/status', [UserController::class, 'status']);
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::patch('/{id}', [UserController::class, 'update']);
+});
 
 Route::post('/item', [ItemController::class, 'create']);
 Route::get('/item', [ItemController::class, 'table']);
