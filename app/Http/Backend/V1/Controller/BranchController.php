@@ -166,7 +166,7 @@ class BranchController extends Controller
     }
 
     /**
-     * Update branch details by id
+     * Update Branch details by id
      * 
      * @param App\Http\Requests\Backend\BranchEditRequest $request
      * @param integer $id
