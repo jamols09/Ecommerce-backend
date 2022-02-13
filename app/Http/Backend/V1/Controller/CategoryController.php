@@ -5,6 +5,7 @@ namespace App\Http\Backend\V1\Controller;
 use App\Http\Requests\Backend\CategoryCreateRequest;
 use App\Http\Backend\V1\Services\CategoryService;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Backend\CategoryResource;
 use App\Http\Resources\Backend\CategoryTableCollection;
 use App\Models\Category;
 use Exception;
@@ -95,10 +96,23 @@ class CategoryController extends Controller
      * @param Illuminate\Http\Request $request
      * @return JSON
      */
-    public function delete(Request $request)
+    public function destroy(Request $request)
     {
         try {
-            $result['body'] = $this->categoryService->delete($request->only(['id']));
+            $result['body'] = $this->categoryService->destroy($request->only(['id']));
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
+        return response()->json($result, 200);
+    }
+
+    public function show(Category $id)
+    {
+        try {
+            return new CategoryResource($id);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),

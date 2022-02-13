@@ -50,7 +50,7 @@ class CategoryRepository
      * @param array $data
      * @return App\Models\Category
      */
-    public function delete(array $data)
+    public function destroy(array $data)
     {
         DB::transaction(function () use ($data) {
             foreach ($data['id'] as $value) {

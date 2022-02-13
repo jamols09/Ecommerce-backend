@@ -24,8 +24,8 @@ class CategoryService
 		return $this->categoryRepository->dropdown();
 	}
 
-	public function delete($data)
+	public function destroy($data)
 	{
-		return $this->categoryRepository->delete($data);
+		return $this->categoryRepository->destroy($data);
 	}
 }

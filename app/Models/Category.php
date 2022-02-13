@@ -29,8 +29,12 @@ class Category extends Model
         'updated_at',
     ];
 
+    /**
+     * @return BelongsTo
+     */
+
     public function parent(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Category', 'parent_id');
+        return $this->belongsTo(self::class,'parent_id');
     }
 }

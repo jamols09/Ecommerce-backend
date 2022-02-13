@@ -29,11 +29,13 @@ Route::prefix('branch')->group(function () {
     Route::patch('/{id}', [BranchController::class, 'update']);
 });
 
-
-Route::get('/category', [CategoryController::class, 'table']);
-Route::get('/category/dropdown', [CategoryController::class, 'dropdown']);
-Route::post('/category', [CategoryController::class, 'create']);
-Route::post('/category/delete', [CategoryController::class, 'delete']);
+Route::prefix('category')->group(function () {
+    Route::get('/', [CategoryController::class, 'table']);
+    Route::get('/dropdown', [CategoryController::class, 'dropdown']);
+    Route::post('/', [CategoryController::class, 'create']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
+    Route::post('/delete', [CategoryController::class, 'delete']);    
+});
 
 Route::post('/users', [UserController::class, 'create']);
 Route::get('/users', [UserController::class, 'table']);
