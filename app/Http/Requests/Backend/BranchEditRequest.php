@@ -25,7 +25,7 @@ class BranchEditRequest extends FormRequest
     {
         return [
             'is_active' => 'required|boolean',
-            'name' => 'required|max:100',
+            'name' => 'required|unique:branches,name,'.$this->id.',id|max:100',
             'code' => 'nullable|max:50',
             'country' => 'required',
             'state' => 'required',

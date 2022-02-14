@@ -13,7 +13,7 @@ class UserEditRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,14 +24,13 @@ class UserEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|unique:users,username|max:35|alpha_dash',
+            'username' => 'required|unique:users,username,'.$this->id.',id|max:35|alpha_dash',
             'first_name' => 'required|max:255',
             'middle_name' => 'nullable|max:255',
             'last_name' => 'required|max:255',
             'thumbnail' => 'nullable',
             'birthdate' => 'sometimes|before:today',
             'is_active' => 'nullable|boolean',
-            'email' => 'sometimes|unique:users,email',
         ];
     }
 }
