@@ -24,7 +24,7 @@ class CategoryEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:100',
+            'name' => 'required|unique:category,name,'.$this->id.',id|max:100',
             'parent_id' => 'nullable'
         ];
     }
