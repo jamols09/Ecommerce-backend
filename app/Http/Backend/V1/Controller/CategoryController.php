@@ -44,7 +44,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Geneerate category 
+     * Generate category 
      * 
      * @param App\Http\Requests\Backend\CategoryCreateRequest $request
      * @return JSON
@@ -131,10 +131,10 @@ class CategoryController extends Controller
      * Update Category details by id
      * 
      * @param App\Http\Requests\Backend\CategoryEditRequest $request
-     * @param App\Models\Category $id
+     * @param int $id
      * @return JSON
      */
-    public function update(CategoryEditRequest $request, $id)
+    public function update(CategoryEditRequest $request, int $id)
     {
         try {
             $result['id'] = $id;

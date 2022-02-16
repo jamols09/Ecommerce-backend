@@ -33,7 +33,7 @@ Route::prefix('category')->group(function () {
     Route::get('/', [CategoryController::class, 'table']);
     Route::get('/dropdown', [CategoryController::class, 'dropdown']);
     Route::post('/', [CategoryController::class, 'create']);
-    Route::post('/delete', [CategoryController::class, 'delete']);    
+    Route::post('/delete', [CategoryController::class, 'destroy']);    
     Route::get('/{id}', [CategoryController::class, 'show']);
     Route::patch('/{id}', [CategoryController::class, 'update']);
 });

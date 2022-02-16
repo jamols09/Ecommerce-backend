@@ -14,6 +14,8 @@ class CategoryTableCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return  [
+            'data' => CategoryTableResource::collection($this->collection)
+        ];
     }
 }

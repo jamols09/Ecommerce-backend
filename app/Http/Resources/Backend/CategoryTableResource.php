@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources\Backend;
 
-use App\Models\Category;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class CategoryTableResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +17,10 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'parent_id' => $this->parent_id,
+            'created_at' => $this->created_at->format('Y-m-d'),
+            'parent' => $this->when($this->parent_id, function() {
+                return ParentCategoryResource::make($this->parent);
+            }),
         ];
     }
 }

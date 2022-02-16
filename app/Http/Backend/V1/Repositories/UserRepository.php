@@ -20,10 +20,10 @@ class UserRepository
 
     /**
      * Create account via api call
-     * @param User 
+     * @param array $data
+     * @return App\Models\User
      */
-
-    public function createApi($data)
+    public function createApi(array $data)
     {
         return $this->user::create([
             'username' => $data['username'],
@@ -40,8 +40,10 @@ class UserRepository
 
     /**
      * Create account from admin
+     * @param array $data
+     * @return App\Models\User
      */
-    public function create($data)
+    public function create(array $data)
     {
         return $this->user::create([
             'username' => $data['username'],
