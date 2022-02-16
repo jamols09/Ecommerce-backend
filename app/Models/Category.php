@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -29,6 +30,11 @@ class Category extends Model
         'updated_at',
     ];
 
+    public function scopeHasChild($query, $value)
+    {
+        return $query->with('children')->where('parent_id', $value)->exists();
+    }
+
     /**
      * @return BelongsTo
      */
@@ -36,5 +42,13 @@ class Category extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class,'parent_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id','id')->orderBy('name');
     }
 }
