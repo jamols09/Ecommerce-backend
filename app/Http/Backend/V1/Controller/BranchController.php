@@ -101,7 +101,6 @@ class BranchController extends Controller
             ];
             return response()->json($result, 500);
         }
-        return response()->json($result, 200);
     }
 
     /**
@@ -113,7 +112,7 @@ class BranchController extends Controller
     public function destroy(Request $request)
     {
         try {
-            $result['body'] = $this->branchService->delete($request);
+            $result['body'] = $this->branchService->delete($request->only(['id']));
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
@@ -135,7 +134,7 @@ class BranchController extends Controller
     {
 
         try {
-            $result['body'] = $this->branchService->status($request);
+            $result['body'] = $this->branchService->status($request->only(['id']));
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
