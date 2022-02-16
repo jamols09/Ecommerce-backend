@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Integer;
 
 class Category extends Model
 {
@@ -30,9 +32,15 @@ class Category extends Model
         'updated_at',
     ];
 
-    public function scopeHasChild($query, $value)
+    /**
+     * Checks if a node has a child
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id
+     * @return bool
+     */
+    public function scopeHasChild($query, int $id): bool
     {
-        return $query->with('children')->where('parent_id', $value)->exists();
+        return $query->with('children')->where('parent_id', $id)->exists();
     }
 
     /**

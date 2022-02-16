@@ -20,9 +20,10 @@ class BranchService
     /**
      * Create branch
      * 
+     * @param array $data
      * @return App\Models\Branch
      */
-    public function create($data)
+    public function create(array $data)
     {
         DB::transaction(function () use ($data) {
             return Branch::create($data);
@@ -45,7 +46,7 @@ class BranchService
      * @param array $data
      * @return App\Models\Branch
      */
-    public function delete($data)
+    public function delete(array $data)
     {
         DB::transaction(function () use ($data) {
             foreach ($data['id'] as $value) {
@@ -62,7 +63,7 @@ class BranchService
      * @param array $data
      * @return App\Models\Branch
      */
-    public function status($data)
+    public function status(array $data)
     {
         DB::transaction(function () use ($data) {
             foreach ($data['id'] as $value) {
@@ -77,8 +78,9 @@ class BranchService
      * 
      * @param array details
      * @param integer id
+     * @return bool
      */
-    public function update($data, $id)
+    public function update(array $data, int $id)
     {
         return DB::transaction(function () use ($data, $id) {
             return Branch::find($id)->update($data);

@@ -17,17 +17,31 @@ class CategoryService
 		$this->categoryRepository = $categoryRepository;
 	}
 
-	public function create($data)
+	/**
+	 * Create Category
+	 * @param array $data
+	 * @return string
+	 */
+	public function create(array $data)
 	{
 		return Category::create($data)->name;
 	}
 
+	/**
+	 * Returns all Category in ascending order
+	 * @return App\Models\Category
+	 */
 	public function dropdown()
 	{
 		return $this->categoryRepository->dropdown();
 	}
 
-	public function destroy($data)
+	/**
+	 * Soft deletes selected Categories
+	 * @param array $data
+	 * @return bool | string
+	 */
+	public function destroy(array $data)
 	{
 		foreach ($data['id'] as $value) {
 			if(Category::hasChild($value)) {
@@ -37,7 +51,13 @@ class CategoryService
 		return $this->categoryRepository->destroy($data);
 	}
 
-	public function update($data, $id)
+	/**
+	 * Updates Category details
+	 * @param array $data
+	 * @param int $id
+	 * @return bool
+	 */
+	public function update(array $data, int $id)
 	{
 		return DB::transaction(function () use ($data, $id) {
             return Category::find($id)->update($data);
