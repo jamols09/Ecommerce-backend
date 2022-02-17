@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Item extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $fillable = [
         'name',
         'department_id',
@@ -62,7 +62,7 @@ class Item extends Model
     public function branches(): BelongsToMany
     {
         return $this->belongsToMany(Branch::class)
-            ->withPivot('is_active', 'is_display_qty', 'quantity', 'quantity_warn')
+            ->withPivot('id','is_active', 'is_display_qty', 'quantity', 'quantity_warn', 'price')
             ->withTimestamps();
     }
 
