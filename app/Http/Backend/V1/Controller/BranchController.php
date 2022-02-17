@@ -72,6 +72,17 @@ class BranchController extends Controller
     {
         try {
             $data = QueryBuilder::for(Branch::class)
+                ->select([
+                    'branches.id',
+                    'branches.is_active',
+                    'branches.name',
+                    'branches.code',
+                    'branches.city',
+                    'branches.barangay',
+                    'branches.address_line_1',
+                    'branches.telephone',
+                    'branches.mobile'
+                ])
                 ->allowedFilters([
                     'name',
                     'code',
