@@ -12,9 +12,7 @@ use App\Http\Resources\Backend\BranchTableCollection;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
-use Symfony\Component\ErrorHandler\Debug;
 
 class BranchController extends Controller
 {
