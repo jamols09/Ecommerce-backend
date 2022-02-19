@@ -47,10 +47,13 @@ Route::prefix('users')->group(function () {
     Route::patch('/{id}', [UserController::class, 'update']);
 });
 
-Route::post('/item', [ItemController::class, 'create']);
-Route::get('/item', [ItemController::class, 'table']);
-Route::post('/item/status', [ItemController::class, 'status']);
-Route::get('/item/dropdown/{id}', [ItemController::class, 'dropdown']);
+Route::prefix('item')->group(function () {
+    Route::post('/', [ItemController::class, 'create']);
+    Route::get('/', [ItemController::class, 'table']);
+    Route::post('/status', [ItemController::class, 'status']);
+    Route::get('/dropdown/{id}', [ItemController::class, 'dropdown']);
+    Route::get('/branch', [ItemController::class, 'itemsByBranch']);
+});
 
 Route::get('/department/dropdown', [DepartmentController::class, 'dropdown']);
 Route::post('/department', [DepartmentController::class, 'create']);

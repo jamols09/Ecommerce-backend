@@ -11,6 +11,7 @@ use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Http\Resources\Backend\ItemDropdownCollection;
 use App\Http\Resources\Backend\ItemDropdownResource;
 use App\Http\Resources\Backend\ItemTableCollection;
+use App\Models\Branch;
 use App\Models\Item;
 use Exception;
 use Illuminate\Http\Request;
@@ -104,7 +105,7 @@ class ItemController extends Controller
                     'created_at',
                     'sku'
                 )
-                ->paginate(request()->query()['row'] ?? 100)
+                ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
             return new ItemTableCollection($data);
         } catch (Exception $e) {
@@ -123,7 +124,7 @@ class ItemController extends Controller
      * 
      * @param Illuminate\Http\Request $request
      */
-    public function status(ItemUpdateStatusRequest $request) 
+    public function status(ItemUpdateStatusRequest $request)
     {
         try {
             $result['body'] = $this->itemService->status($request->validated());
@@ -134,5 +135,23 @@ class ItemController extends Controller
             return response()->json($result, 500);
         }
         return response()->json($result, 200);
+    }
+
+    public function itemsByBranch(Request $request)
+    {
+        try {
+            return QueryBuilder::for(Branch::class)
+                ->select([
+                    'branches.id',
+                    'branches.is_active',
+                    'branches.name',
+                    'branches.code'
+                ])
+                ->with('items:items.id,name,is_discountable')
+                ->paginate(request()->query()['row'] ?? 10)
+                ->onEachSide(1);
+        } catch (Exception $e) {
+            return $e;
+        }
     }
 }
