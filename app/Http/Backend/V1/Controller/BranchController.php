@@ -36,6 +36,7 @@ class BranchController extends Controller
             $result = [
                 'error' => $e->getMessage(),
             ];
+
             return response()->json($result, 500);
         }
 
@@ -50,11 +51,13 @@ class BranchController extends Controller
     public function create(BranchCreateRequest $request)
     {
         try {
-            $result['body'] = $this->branchService->create($request->validated());
+            $result['id'] = $this->branchService->create($request->validated());
+            $result['success'] = true;
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];
+
             return response()->json($result, 500);
         }
 
@@ -108,6 +111,7 @@ class BranchController extends Controller
                 'error' => $e->getMessage(),
                 'status' => 500,
             ];
+
             return response()->json($result, 500);
         }
     }
@@ -169,6 +173,7 @@ class BranchController extends Controller
             $result = [
                 'error' => $e->getMessage(),
             ];
+
             return response()->json($result, 500);
         }
     }
@@ -184,13 +189,35 @@ class BranchController extends Controller
         try {
             $result['id'] = $id;
             $result['success'] = $this->branchService->update($request->validated(), $id);
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];
+
             return response()->json($result, 500);
         }
         return response()->json($result, 200);
+    }
+
+
+    public function itemsPerBranchTable()
+    {
+        try {
+            return QueryBuilder::for(Branch::class)
+                ->select([
+                    'branches.id',
+                    'branches.is_active',
+                    'branches.name',
+                    'branches.code',
+                ])
+                ->paginate(request()->query()['row'] ?? 10)
+                ->onEachSide(1);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+
+            return response()->json($result, 500);
+        }
     }
 }
