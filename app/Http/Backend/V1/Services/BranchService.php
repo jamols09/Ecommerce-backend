@@ -7,6 +7,7 @@ use App\Http\Backend\V1\Repositories\BranchRepository;
 use App\Models\Branch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\ErrorHandler\Debug;
 
 class BranchService
 {
@@ -63,9 +64,9 @@ class BranchService
      * @param array $data
      * @return App\Models\Branch
      */
-    public function status(array $data)
+    public function status($data)
     {
-        DB::transaction(function () use ($data) {
+        return DB::transaction(function () use ($data) {
             foreach ($data['id'] as $value) {
                 $query = Branch::find($value)->update(['is_active' => $data['status'] == 'activate' ? 1 : 0]);
             }

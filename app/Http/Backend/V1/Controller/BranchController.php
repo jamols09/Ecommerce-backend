@@ -148,7 +148,7 @@ class BranchController extends Controller
     {
 
         try {
-            $result['body'] = $this->branchService->status($request->only(['id']));
+            $result['body'] = $this->branchService->status($request);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
