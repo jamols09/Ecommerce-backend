@@ -9,6 +9,7 @@ use App\Http\Requests\Backend\BranchEditRequest;
 use App\Http\Resources\Backend\BranchDropdownCollection;
 use App\Http\Resources\Backend\BranchResource;
 use App\Http\Resources\Backend\BranchTableCollection;
+use App\Http\Resources\Backend\ItemsPerBranchCollection;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Exception;
@@ -203,7 +204,7 @@ class BranchController extends Controller
     public function itemsPerBranchTable()
     {
         try {
-            return QueryBuilder::for(Branch::class)
+            $data = QueryBuilder::for(Branch::class)
                 ->select([
                     'branches.id',
                     'branches.is_active',
@@ -212,6 +213,8 @@ class BranchController extends Controller
                 ])
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
+
+            return new ItemsPerBranchCollection($data);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
