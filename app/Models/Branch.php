@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Branch extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'is_active',
@@ -18,7 +18,7 @@ class Branch extends Model
         'country',
         'state',
         'city',
-        'barangay',        
+        'barangay',
         'address_line_1',
         'address_line_2',
         'postal',
@@ -33,7 +33,9 @@ class Branch extends Model
      */
     public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class)->withPivot('is_active','is_display_qty','quantity','quantity_warn')->withTimestamps();
+        return $this->belongsToMany(Item::class)
+            ->withPivot('id', 'is_active', 'is_display_qty', 'quantity', 'quantity_warn', 'price')
+            ->withTimestamps();
     }
 
     /**

@@ -64,8 +64,8 @@ class ItemService
 				'price' => $data['price'],
 			]);
 		} else {
-			$branch_ids = Branch::pluck('id')->toArray();
-			$item->branches()->syncWithPivotValues($branch_ids, [
+			$id = Branch::pluck('id')->toArray();
+			$item->branches()->syncWithPivotValues($id, [
 				'is_active' => $data['is_active'],
 				'is_display_qty' => $data['is_display_qty'],
 				'quantity' => $data['quantity'],
@@ -78,9 +78,10 @@ class ItemService
 	/**
 	 * Get items list based on branch id
 	 * 
+	 * @param array $data
 	 * @return key,value id,name
 	 */
-	public function dropdown($data)
+	public function dropdown(array $data)
 	{
 		$branch = Branch::find($data['id']);
 		// $item = $branch->items()->where('is_active', 1)->pluck('items.name', 'items.id');
@@ -91,7 +92,8 @@ class ItemService
 	/**
 	 * Update item status columns: is_discountable
 	 * 
-	 * @param Array $data
+	 * @param array $data
+	 * @return null
 	 */
 	public function status(array $data)
 	{

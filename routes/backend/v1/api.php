@@ -6,7 +6,6 @@ use App\Http\Backend\V1\Controller\CategoryController;
 use App\Http\Backend\V1\Controller\DepartmentController;
 use App\Http\Backend\V1\Controller\UserController;
 use App\Http\Backend\V1\Controller\ItemController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,43 +19,47 @@ use Illuminate\Support\Facades\Route;
 
 // Route::middleware('auth:sanctum')->group( function () {
 Route::prefix('branch')->group(function () {
-    Route::post('/', [BranchController::class, 'create']);
-    Route::get('/', [BranchController::class, 'table']);
-    Route::get('/dropdown', [BranchController::class, 'dropdown']);
-    Route::post('/delete', [BranchController::class, 'destroy']);
-    Route::post('/status', [BranchController::class, 'status']);
-    Route::get('/{id}', [BranchController::class, 'show']);
-    Route::patch('/{id}', [BranchController::class, 'update']);
+    Route::post('', [BranchController::class, 'create']);
+    Route::get('', [BranchController::class, 'table']);
+    Route::get('dropdown', [BranchController::class, 'dropdown']);
+    Route::post('delete', [BranchController::class, 'destroy']);
+    Route::post('status', [BranchController::class, 'status']);
+    Route::get('{id}', [BranchController::class, 'show']);
+    Route::patch('{id}', [BranchController::class, 'update']);
+    Route::get('items', [BranchController::class, 'itemsPerBranchTable']);
 });
+Route::get('branche/items', [BranchController::class, 'itemsPerBranchTable']);
 
 Route::prefix('category')->group(function () {
-    Route::get('/', [CategoryController::class, 'table']);
-    Route::get('/dropdown', [CategoryController::class, 'dropdown']);
-    Route::post('/', [CategoryController::class, 'create']);
-    Route::post('/delete', [CategoryController::class, 'destroy']);    
-    Route::get('/{id}', [CategoryController::class, 'show']);
-    Route::patch('/{id}', [CategoryController::class, 'update']);
+    Route::get('', [CategoryController::class, 'table']);
+    Route::get('dropdown', [CategoryController::class, 'dropdown']);
+    Route::post('', [CategoryController::class, 'create']);
+    Route::post('delete', [CategoryController::class, 'destroy']);
+    Route::get('{id}', [CategoryController::class, 'show']);
+    Route::patch('{id}', [CategoryController::class, 'update']);
 });
 
 Route::prefix('users')->group(function () {
-    Route::post('/', [UserController::class, 'create']);
-    Route::get('/', [UserController::class, 'table']);
-    Route::post('/delete', [UserController::class, 'delete']);
-    Route::post('/status', [UserController::class, 'status']);
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::patch('/{id}', [UserController::class, 'update']);
+    Route::post('', [UserController::class, 'create']);
+    Route::get('', [UserController::class, 'table']);
+    Route::post('delete', [UserController::class, 'delete']);
+    Route::post('status', [UserController::class, 'status']);
+    Route::get('{id}', [UserController::class, 'show']);
+    Route::patch('{id}', [UserController::class, 'update']);
 });
 
-Route::post('/item', [ItemController::class, 'create']);
-Route::get('/item', [ItemController::class, 'table']);
-Route::post('/item/status', [ItemController::class, 'status']);
-Route::get('/item/dropdown/{id}', [ItemController::class, 'dropdown']);
+Route::prefix('item')->group(function () {
+    Route::post('', [ItemController::class, 'create']);
+    Route::get('', [ItemController::class, 'table']);
+    Route::post('status', [ItemController::class, 'status']);
+    Route::get('dropdown/{id}', [ItemController::class, 'dropdown']);
+});
 
-Route::get('/department/dropdown', [DepartmentController::class, 'dropdown']);
-Route::post('/department', [DepartmentController::class, 'create']);
+Route::get('department/dropdown', [DepartmentController::class, 'dropdown']);
+Route::post('department', [DepartmentController::class, 'create']);
 
-Route::get('/brand/dropdown', [BrandController::class, 'dropdown']);
-Route::post('/brand', [BrandController::class, 'create']);
+Route::get('brand/dropdown', [BrandController::class, 'dropdown']);
+Route::post('brand', [BrandController::class, 'create']);
 // });
 
 //Auth

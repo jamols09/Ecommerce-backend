@@ -25,8 +25,8 @@ class BranchService
      */
     public function create(array $data)
     {
-        DB::transaction(function () use ($data) {
-            return Branch::create($data);
+        return DB::transaction(function () use ($data) {
+            return Branch::create($data)->id;
         });
     }
 
