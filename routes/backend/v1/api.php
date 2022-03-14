@@ -26,7 +26,7 @@ Route::prefix('branch')->group(function () {
     Route::post('status', [BranchController::class, 'status']);
     Route::get('{id}', [BranchController::class, 'show']);
     Route::patch('{id}', [BranchController::class, 'update']);
-    Route::get('items', [BranchController::class, 'itemsPerBranchTable']);
+    Route::get('{id}/items', [ItemController::class, 'itemsOfBranch']);
 });
 
 Route::prefix('category')->group(function () {
