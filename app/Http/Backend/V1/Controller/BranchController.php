@@ -9,7 +9,9 @@ use App\Http\Requests\Backend\BranchEditRequest;
 use App\Http\Resources\Backend\BranchDropdownCollection;
 use App\Http\Resources\Backend\BranchResource;
 use App\Http\Resources\Backend\BranchTableCollection;
+use App\Http\Resources\Backend\ItemsOfBranchCollection;
 use App\Models\Branch;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Exception;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -147,7 +149,7 @@ class BranchController extends Controller
     {
 
         try {
-            $result['body'] = $this->branchService->status($request->only(['id']));
+            $result['body'] = $this->branchService->status($request);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
@@ -199,25 +201,4 @@ class BranchController extends Controller
         return response()->json($result, 200);
     }
 
-
-    public function itemsPerBranchTable()
-    {
-        try {
-            return QueryBuilder::for(Branch::class)
-                ->select([
-                    'branches.id',
-                    'branches.is_active',
-                    'branches.name',
-                    'branches.code',
-                ])
-                ->paginate(request()->query()['row'] ?? 10)
-                ->onEachSide(1);
-        } catch (Exception $e) {
-            $result = [
-                'error' => $e->getMessage(),
-            ];
-
-            return response()->json($result, 500);
-        }
-    }
 }

@@ -9,15 +9,12 @@ use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemGetRequest;
 use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Http\Resources\Backend\ItemDropdownCollection;
-use App\Http\Resources\Backend\ItemDropdownResource;
+use App\Http\Resources\Backend\ItemsOfBranchCollection;
 use App\Http\Resources\Backend\ItemTableCollection;
-use App\Models\Branch;
 use App\Models\Item;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ItemController extends Controller
@@ -134,5 +131,34 @@ class ItemController extends Controller
             return response()->json($result, 500);
         }
         return response()->json($result, 200);
+    }
+
+    /**
+     * Applies status change to column: is_discountable
+     * 
+     * @param int $id
+     * @return JSON
+     */
+    public function itemsOfBranch(int $id)
+    {
+        try {
+            $data = QueryBuilder::for(Item::class)
+                ->whereHas('branches', function ($query) use ($id) {
+                    $query->where('branches.id', $id);
+                })
+                ->with('branches', function ($query) use ($id) {
+                    $query->where('branch_id', $id);
+                })
+                ->paginate(request()->query()['row'] ?? 10)
+                ->onEachSide(1);
+
+            return new ItemsOfBranchCollection($data);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+
+            return response()->json($result, 500);
+        }
     }
 }
