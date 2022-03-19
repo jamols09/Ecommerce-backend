@@ -134,7 +134,7 @@ class ItemController extends Controller
     }
 
     /**
-     * Applies status change to column: is_discountable
+     * Get items by branch id
      * 
      * @param int $id
      * @return JSON
@@ -151,7 +151,6 @@ class ItemController extends Controller
                 })
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
-
             return new ItemsOfBranchCollection($data);
         } catch (Exception $e) {
             $result = [

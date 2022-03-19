@@ -14,8 +14,7 @@ class ItemsOfBranchPivotResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'pivot' => $this->pivot
-        ];
+        return
+            $this->pivot;
     }
 }
