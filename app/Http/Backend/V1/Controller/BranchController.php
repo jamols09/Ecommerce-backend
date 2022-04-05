@@ -9,9 +9,8 @@ use App\Http\Requests\Backend\BranchEditRequest;
 use App\Http\Resources\Backend\BranchDropdownCollection;
 use App\Http\Resources\Backend\BranchResource;
 use App\Http\Resources\Backend\BranchTableCollection;
-use App\Http\Resources\Backend\ItemsOfBranchCollection;
+use App\Http\Resources\Backend\ItemsPerBranchCollection;
 use App\Models\Branch;
-use App\Models\Item;
 use Illuminate\Http\Request;
 use Exception;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -200,5 +199,4 @@ class BranchController extends Controller
         }
         return response()->json($result, 200);
     }
-
 }

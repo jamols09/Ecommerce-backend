@@ -2,18 +2,18 @@
 
 namespace App\Http\Backend\V1\Controller;
 
-use App\Http\Backend\V1\Services\ItemService;
+use Exception;
+use App\Models\Item;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\FilterBranchItem;
-use App\Http\Requests\Backend\ItemCreateRequest;
+use App\Http\Backend\V1\Services\ItemService;
 use App\Http\Requests\Backend\ItemGetRequest;
+use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Http\Resources\Backend\ItemDropdownCollection;
-use App\Http\Resources\Backend\ItemsOfBranchCollection;
+use App\Http\Resources\Backend\ItemsOfBranchTableCollection;
 use App\Http\Resources\Backend\ItemTableCollection;
-use App\Models\Item;
-use Exception;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -44,7 +44,6 @@ class ItemController extends Controller
         }
         return response()->json($result, 200);
     }
-
 
     /**
      * Get item per selected branch
@@ -96,14 +95,15 @@ class ItemController extends Controller
                     'created_at',
                     'sku'
                 ])
-                ->allowedSorts(
+                ->allowedSorts([
                     'name',
                     'is_discountable',
                     'created_at',
                     'sku'
-                )
+                ])
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
+
             return new ItemTableCollection($data);
         } catch (Exception $e) {
             $result = [
@@ -112,7 +112,6 @@ class ItemController extends Controller
             return response()->json($result, 500);
         }
     }
-
 
     /**
      * General item status: will apply to all branches for specific item.
@@ -134,25 +133,37 @@ class ItemController extends Controller
     }
 
     /**
-     * Applies status change to column: is_discountable
+     * Get items by branch id
      * 
      * @param int $id
      * @return JSON
      */
     public function itemsOfBranch(int $id)
     {
-        try {
+        try {              
             $data = QueryBuilder::for(Item::class)
-                ->whereHas('branches', function ($query) use ($id) {
-                    $query->where('branches.id', $id);
-                })
-                ->with('branches', function ($query) use ($id) {
-                    $query->where('branch_id', $id);
-                })
+                ->join('branch_item', 'items.id', '=', 'branch_item.item_id')
+                ->where('branch_id', $id)
+                ->allowedSorts([
+                    'name',
+                    'quantity',
+                    'price',
+                    'is_active'
+                ])
+                ->select([
+                    'items.name',
+                    'branch_item.is_active',
+                    'branch_item.is_display_qty',
+                    'branch_item.quantity',
+                    'branch_item.quantity_warn',
+                    'branch_item.price',
+                    'branch_item.item_id',
+                    'branch_item.id'
+                ])
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
 
-            return new ItemsOfBranchCollection($data);
+            return new ItemsOfBranchTableCollection($data);
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),

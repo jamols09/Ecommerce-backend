@@ -2,19 +2,18 @@
 
 namespace App\Http\Resources\Backend;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ItemsOfBranchPivotResource extends JsonResource
+class ItemsOfBranchTableCollection extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
-        return
-            $this->pivot;
+        return parent::toArray($request);
     }
 }

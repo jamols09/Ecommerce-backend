@@ -21,7 +21,7 @@ class ItemsOfBranchResource extends JsonResource
             //imagelink
             'size' => $this->size,
             'color' => $this->color,
-            'branches' => ItemsOfBranchPivotResource::collection($this->branches), 
+            'details' => ItemsOfBranchPivotResource::collection($this->branches), 
         ];
     }
 }
