@@ -9,12 +9,12 @@ use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemGetRequest;
 use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Http\Resources\Backend\ItemDropdownCollection;
-use App\Http\Resources\Backend\ItemsOfBranchCollection;
 use App\Http\Resources\Backend\ItemTableCollection;
 use App\Models\Item;
 use Exception;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ItemController extends Controller
@@ -96,12 +96,12 @@ class ItemController extends Controller
                     'created_at',
                     'sku'
                 ])
-                ->allowedSorts(
+                ->allowedSorts([
                     'name',
                     'is_discountable',
                     'created_at',
                     'sku'
-                )
+                ])
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
             return new ItemTableCollection($data);
@@ -141,17 +141,28 @@ class ItemController extends Controller
      */
     public function itemsOfBranch(int $id)
     {
-        try {
+        try {              
             $data = QueryBuilder::for(Item::class)
-                ->whereHas('branches', function ($query) use ($id) {
-                    $query->where('branches.id', $id);
-                })
-                ->with('branches', function ($query) use ($id) {
-                    $query->where('branch_id', $id);
-                })
+                ->join('branch_item', 'items.id', '=', 'branch_item.item_id')
+                ->where('branch_id', $id)
+                ->allowedSorts([
+                    'name',
+                    'quantity',
+                    'price',
+                    'is_active'
+                ])
+                ->select([
+                    'items.name',
+                    'branch_item.is_active',
+                    'branch_item.is_display_qty',
+                    'branch_item.quantity',
+                    'branch_item.quantity_warn',
+                    'branch_item.price'
+                ])
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
-            return new ItemsOfBranchCollection($data);
+
+            return $data;
         } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
