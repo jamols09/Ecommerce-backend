@@ -10,6 +10,7 @@ use App\Http\Filters\FilterBranchItem;
 use App\Http\Backend\V1\Services\ItemService;
 use App\Http\Requests\Backend\ItemGetRequest;
 use App\Http\Requests\Backend\ItemCreateRequest;
+use App\Http\Requests\Backend\ItemOfBranchUpdateRequest;
 use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Http\Resources\Backend\ItemDropdownCollection;
 use App\Http\Resources\Backend\ItemsOfBranchTableCollection;
@@ -171,5 +172,24 @@ class ItemController extends Controller
 
             return response()->json($result, 500);
         }
+    }
+
+    /**
+     * Update item by branch id
+     * 
+     * @param App\Http\Requests\Backend\ItemOfBranchUpdateRequest $request
+     * @param int $id
+     */
+    public function updateItemOfBranch(ItemOfBranchUpdateRequest $request, int $id)
+    {
+        try {
+            $result['body'] = $this->itemService->updateItemOfBranch($request->validated(), $id);
+        } catch (Exception $e) {
+            $result = [
+                'error' => $e->getMessage(),
+            ];
+            return response()->json($result, 500);
+        }
+        return response()->json($result, 200);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Backend\V1\Services;
 
 use App\Models\Branch;
+use App\Models\BranchItem;
 use App\Models\Item;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -86,9 +87,9 @@ class ItemService
 		$branch = Branch::find($data['id']);
 		// $item = $branch->items()->where('is_active', 1)->pluck('items.name', 'items.id');
 		// or use get(['items.id','items.name']) but this will also display pivot columns on result
-		return $branch->items()->where('is_active', 1)->get(['items.id','items.name']);;
+		return $branch->items()->where('is_active', 1)->get(['items.id', 'items.name']);;
 	}
-		
+
 	/**
 	 * Update item status columns: is_discountable
 	 * 
@@ -100,6 +101,20 @@ class ItemService
 		$discountable = $data['state'] == 'discountable' ? 1 : 0;
 		DB::transaction(function () use ($data, $discountable) {
 			Item::where('id', $data['id'])->update(['is_discountable' => $discountable]);
+		});
+	}
+
+	/**
+	 * Update item status columns: is_discountable
+	 * 
+	 * @param array $data
+	 * @param int id
+	 * @return null
+	 */
+	public function updateItemOfBranch(array $data, int $id)
+	{
+		DB::transaction(function () use ($data, $id) {
+			BranchItem::find($id)->update($data);
 		});
 	}
 }
