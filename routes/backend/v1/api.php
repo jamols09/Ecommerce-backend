@@ -27,6 +27,7 @@ Route::prefix('branch')->group(function () {
     Route::get('{id}', [BranchController::class, 'show']);
     Route::patch('{id}', [BranchController::class, 'update']);
     Route::get('{id}/items', [ItemController::class, 'itemsOfBranch']);
+    Route::patch('{id}/items',[ItemController::class, 'updateItemOfBranch']);
 });
 
 Route::prefix('category')->group(function () {

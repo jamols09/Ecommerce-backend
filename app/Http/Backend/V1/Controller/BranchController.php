@@ -185,7 +185,7 @@ class BranchController extends Controller
      * @param App\Http\Requests\Backend\BranchEditRequest $request
      * @param integer $id
      */
-    public function update(BranchEditRequest $request, $id)
+    public function update(BranchEditRequest $request, int $id)
     {
         try {
             $result['id'] = $id;
