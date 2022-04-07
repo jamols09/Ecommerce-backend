@@ -104,11 +104,17 @@ class ItemService
 		});
 	}
 
+	/**
+	 * Update item status columns: is_discountable
+	 * 
+	 * @param array $data
+	 * @param int id
+	 * @return null
+	 */
 	public function updateItemOfBranch(array $data, int $id)
 	{
-		BranchItem::find($id)->update([
-			$data,
-			'is_active' => $data['is_active'] === 0 ? 1 : 0
-		]);
+		DB::transaction(function () use ($data, $id) {
+			BranchItem::find($id)->update($data);
+		});
 	}
 }

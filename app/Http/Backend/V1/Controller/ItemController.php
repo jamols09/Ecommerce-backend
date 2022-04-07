@@ -174,6 +174,12 @@ class ItemController extends Controller
         }
     }
 
+    /**
+     * Update item by branch id
+     * 
+     * @param App\Http\Requests\Backend\ItemOfBranchUpdateRequest $request
+     * @param int $id
+     */
     public function updateItemOfBranch(ItemOfBranchUpdateRequest $request, int $id)
     {
         try {
