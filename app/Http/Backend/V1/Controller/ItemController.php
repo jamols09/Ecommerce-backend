@@ -13,6 +13,7 @@ use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemOfBranchUpdateRequest;
 use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Http\Resources\Backend\ItemDropdownCollection;
+use App\Http\Resources\Backend\ItemsOfBranchCollection;
 use App\Http\Resources\Backend\ItemsOfBranchTableCollection;
 use App\Http\Resources\Backend\ItemTableCollection;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -71,7 +72,7 @@ class ItemController extends Controller
      * @param Illuminate\Http\Request
      * @return JSON
      */
-    public function table(Request $result)
+    public function table(Request $result): ItemTableCollection
     {
         try {
             $data = QueryBuilder::for(Item::class)
@@ -139,7 +140,7 @@ class ItemController extends Controller
      * @param int $id
      * @return JSON
      */
-    public function itemsOfBranch(int $id)
+    public function itemsOfBranch(int $id): ItemsOfBranchTableCollection
     {
         try {              
             $data = QueryBuilder::for(Item::class)
@@ -149,7 +150,7 @@ class ItemController extends Controller
                     'name',
                     'quantity',
                     'price',
-                    'is_active'
+                    'is_active',
                 ])
                 ->select([
                     'items.name',
