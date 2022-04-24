@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\FilterBranchItem;
 use App\Http\Backend\V1\Services\ItemService;
+use App\Http\Filters\FilterBranchItemName;
 use App\Http\Requests\Backend\ItemGetRequest;
 use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemOfBranchUpdateRequest;
@@ -161,6 +162,9 @@ class ItemController extends Controller
                     'branch_item.price',
                     'branch_item.item_id',
                     'branch_item.id'
+                ])
+                ->allowedFilters([
+                    AllowedFilter::custom('name', new FilterBranchItemName()),
                 ])
                 ->paginate(request()->query()['row'] ?? 10)
                 ->onEachSide(1);
