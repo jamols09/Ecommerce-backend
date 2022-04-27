@@ -45,7 +45,7 @@ class CategoryService
 	{
 		foreach ($data['id'] as $value) {
 			if(Category::hasChild($value)) {
-				return abort(403, 'Action not allowed node has a child.');
+				return abort(403, 'Invalid. Node has a child.');
 			}	
 		}
 		return $this->categoryRepository->destroy($data);
