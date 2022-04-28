@@ -14,7 +14,6 @@ use App\Http\Requests\Backend\ItemCreateRequest;
 use App\Http\Requests\Backend\ItemOfBranchUpdateRequest;
 use App\Http\Requests\Backend\ItemUpdateStatusRequest;
 use App\Http\Resources\Backend\ItemDropdownCollection;
-use App\Http\Resources\Backend\ItemsOfBranchCollection;
 use App\Http\Resources\Backend\ItemsOfBranchTableCollection;
 use App\Http\Resources\Backend\ItemTableCollection;
 use Spatie\QueryBuilder\AllowedFilter;

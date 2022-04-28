@@ -9,7 +9,6 @@ use App\Http\Requests\Backend\BranchEditRequest;
 use App\Http\Resources\Backend\BranchDropdownCollection;
 use App\Http\Resources\Backend\BranchResource;
 use App\Http\Resources\Backend\BranchTableCollection;
-use App\Http\Resources\Backend\ItemsPerBranchCollection;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Exception;

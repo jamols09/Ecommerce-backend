@@ -11,8 +11,6 @@ use App\Http\Resources\Backend\CategoryTableCollection;
 use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends Controller
@@ -67,7 +65,7 @@ class CategoryController extends Controller
      * 
      * @return JSON
      */
-    public function table()
+    public function table(): CategoryTableCollection
     {
         try {
             $data = QueryBuilder::for(Category::class)
