@@ -10,7 +10,6 @@ class ProductVariantAttribute extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_variant_id',
         'attribute',
         'value',
         'value_type',

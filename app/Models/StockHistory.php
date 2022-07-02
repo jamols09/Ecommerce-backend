@@ -12,6 +12,5 @@ class StockHistory extends Model
     protected $fillable = [
         'amount',
         'type',
-        'product_variant_id',
     ];
 }
